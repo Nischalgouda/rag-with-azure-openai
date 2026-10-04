@@ -1,5 +1,6 @@
 .env
 STUDY.md
+PROJECT_CONTEXT.md
 .venv/
 __pycache__/
 index/
