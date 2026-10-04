@@ -1,0 +1,7 @@
+.env
+STUDY.md
+.venv/
+__pycache__/
+index/
+usage.db
+.pytest_cache/

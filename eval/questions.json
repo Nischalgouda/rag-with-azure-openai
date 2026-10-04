@@ -1,0 +1,17 @@
+[
+  {"q": "How does hybrid search combine keyword and vector results?", "expect": "Reciprocal Rank Fusion"},
+  {"q": "What does the semantic ranker do?", "expect": "re-ranks"},
+  {"q": "How big is the free tier of Azure AI Search?", "expect": "50 MB"},
+  {"q": "What do I call in code for Azure OpenAI, the model name or deployment name?", "expect": "deployment name"},
+  {"q": "Why is managed identity preferred over API keys?", "expect": "no secret is stored"},
+  {"q": "What is the purpose of overlap between chunks?", "expect": "cut in half"},
+  {"q": "How can I reduce hallucination in a RAG system?", "expect": "refuse to answer"},
+  {"q": "What are the two phases of a RAG pipeline?", "expect": "Ingestion"},
+  {"q": "How do I validate request bodies in FastAPI?", "expect": "Pydantic"},
+  {"q": "Which HTTP status should I return when the LLM endpoint fails?", "expect": "502"},
+  {"q": "Why copy requirements.txt before the source in a Dockerfile?", "expect": "cache"},
+  {"q": "Which Azure service scales containers down to zero?", "expect": "Container Apps"},
+  {"q": "What is the capital of France?", "expect": null},
+  {"q": "Who won the 2018 football world cup?", "expect": null},
+  {"q": "How do I bake a sourdough loaf?", "expect": null}
+]

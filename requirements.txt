@@ -1,0 +1,9 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic-settings>=2.2
+openai>=1.40          # one SDK for Azure OpenAI, OpenAI, and Ollama/Groq (OpenAI-compatible)
+fastembed>=0.3        # free local embeddings (ONNX, no API key, no GPU)
+azure-search-documents>=11.6   # Azure AI Search SDK
+numpy>=1.26
+pytest>=8.0
+httpx>=0.27           # FastAPI TestClient dependency
