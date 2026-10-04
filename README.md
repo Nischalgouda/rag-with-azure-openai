@@ -79,6 +79,8 @@ data/              sample documents
 
 ## What I learned (real issues hit while building)
 
+![Refusal threshold by embedding model](docs/threshold-by-embedding-model.png)
+
 - **A similarity threshold is specific to the embedding model.** The local `bge-small` model separated off-topic from answerable questions around 0.52; Azure `text-embedding-3-small` scores on a different scale and needed ~0.23. My first guess (0.35) failed the eval's refusal check, which is how I found it. Always calibrate from data and re-calibrate when you change the model.
 - **Models get retired.** `gpt-4o-mini` (2024-07-18) failed to deploy with `ServiceModelDeprecated`; I switched to `gpt-4.1-mini`. Check lifecycle dates.
 - **Quota is per subscription, region, model and deployment type.** A new subscription showed 0 TPM for some combinations; switching deployment type fixed it.
@@ -101,4 +103,5 @@ On a corpus of only 8 chunks this is weak evidence: hybrid helps at k=1 but all 
 - Auth: API keys only for now; next is Microsoft Entra ID / managed identity.
 - Usage logging is SQLite; production would use PostgreSQL and Application Insights.
 - Not yet done: PDF ingestion (Document Intelligence), conversation memory, streaming, CI/CD, Azure Container Apps deployment.
+
 
