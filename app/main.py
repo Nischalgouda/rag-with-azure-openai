@@ -6,8 +6,10 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from app import db, rag
+from app.config import settings
 
 logging.basicConfig(level=logging.INFO)
+logging.getLogger("azure").setLevel(logging.WARNING)  # the Azure SDK logs every HTTP request at INFO
 log = logging.getLogger("rag")
 
 app = FastAPI(title="Azure-ready RAG demo")
@@ -24,7 +26,9 @@ class IngestRequest(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "chunks_indexed": len(rag.store.records)}
+    if settings.vector_store == "azure_search":
+        return {"status": "ok", "vector_store": "azure_search", "index": settings.search_index_name}
+    return {"status": "ok", "vector_store": "local", "chunks_indexed": len(rag.store.records)}
 
 
 @app.post("/ingest")
