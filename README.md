@@ -29,7 +29,7 @@ flowchart LR
 - **Hallucination guardrail**: refuses to answer (without calling the LLM) when retrieval is weak
 - **Evaluation harness** (`python -m eval.run_eval`): hit@k per search mode and refusal accuracy
 - **Usage logging** to SQLite: tokens, latency, session id
-- **Azure AI Search backend** (`VECTOR_STORE=azure_search`): managed vector + keyword index, optional semantic ranker
+- **Azure AI Search backend** (`VECTOR_STORE=azure_search`): managed vector + keyword index, optional semantic ranker (implemented; end-to-end verification against a live service still pending)
 - Tests (offline, models faked), Dockerfile
 
 ## Quick start
