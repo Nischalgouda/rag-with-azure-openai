@@ -1,4 +1,4 @@
-# RAG with Azure OpenAI
+﻿# RAG with Azure OpenAI
 
 A learning project: a Retrieval-Augmented Generation (RAG) API built from first principles, then moved onto **Azure OpenAI** (chat + embeddings) with an optional **Azure AI Search** backend.
 
@@ -30,7 +30,7 @@ flowchart LR
 - **Evaluation harness** (`python -m eval.run_eval`): hit@k per search mode and refusal accuracy
 - **Usage logging** to SQLite: tokens, latency, session id
 - **Azure AI Search backend** (`VECTOR_STORE=azure_search`): managed vector + keyword index, optional semantic ranker (verified end to end against a live Free-tier service)
-- Tests (offline, models faked), Dockerfile
+- Tests (chat model faked; embeddings use the configured provider), Dockerfile
 
 ## Quick start
 
@@ -73,7 +73,7 @@ app/
   db.py            SQLite usage log
   main.py          FastAPI app
 eval/              retrieval evaluation (questions.json, run_eval.py)
-tests/             unit + API tests (offline)
+tests/             unit + API tests (chat model faked)
 data/              sample documents
 ```
 
@@ -101,3 +101,4 @@ On a corpus of only 8 chunks this is weak evidence: hybrid helps at k=1 but all 
 - Auth: API keys only for now; next is Microsoft Entra ID / managed identity.
 - Usage logging is SQLite; production would use PostgreSQL and Application Insights.
 - Not yet done: PDF ingestion (Document Intelligence), conversation memory, streaming, CI/CD, Azure Container Apps deployment.
+
