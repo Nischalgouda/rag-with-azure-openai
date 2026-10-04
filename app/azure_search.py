@@ -47,6 +47,7 @@ def build_index() -> SearchIndex:
             name="embedding",
             type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
             searchable=True,
+            hidden=False,  # vector fields are not retrievable by default; we read them back for the cosine guardrail
             vector_search_dimensions=EMBEDDING_DIMS,
             vector_search_profile_name=VECTOR_PROFILE,
         ),

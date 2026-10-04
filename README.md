@@ -29,7 +29,7 @@ flowchart LR
 - **Hallucination guardrail**: refuses to answer (without calling the LLM) when retrieval is weak
 - **Evaluation harness** (`python -m eval.run_eval`): hit@k per search mode and refusal accuracy
 - **Usage logging** to SQLite: tokens, latency, session id
-- **Azure AI Search backend** (`VECTOR_STORE=azure_search`): managed vector + keyword index, optional semantic ranker (implemented; end-to-end verification against a live service still pending)
+- **Azure AI Search backend** (`VECTOR_STORE=azure_search`): managed vector + keyword index, optional semantic ranker (verified end to end against a live Free-tier service)
 - Tests (offline, models faked), Dockerfile
 
 ## Quick start
@@ -84,6 +84,16 @@ data/              sample documents
 - **Quota is per subscription, region, model and deployment type.** A new subscription showed 0 TPM for some combinations; switching deployment type fixed it.
 - **TPM vs `max_completion_tokens`:** TPM is a per-deployment, per-minute limit shared by every call to that deployment (input + output). `max_completion_tokens` is a per-call cap on the answer; hitting it cuts the answer off (`finish_reason="length"`) rather than raising an error.
 - **Evaluate retrieval separately from generation.** If the right chunk isn't retrieved, no prompt fixes it.
+
+## Evaluation results (Azure AI Search + Azure OpenAI embeddings, 12 answerable + 3 off-topic questions)
+
+| Mode | hit@1 | hit@3 | Off-topic refused |
+|---|---|---|---|
+| vector | 9/12 | 12/12 | 3/3 |
+| keyword | 11/12 | 12/12 | 3/3 |
+| hybrid | 11/12 | 12/12 | 3/3 |
+
+On a corpus of only 8 chunks this is weak evidence: hybrid helps at k=1 but all modes converge at k=3. A larger, messier document set is the next step to see a real difference.
 
 ## Limitations and next steps
 

@@ -9,6 +9,7 @@ from app.config import settings
 @pytest.fixture()
 def client(tmp_path, monkeypatch):
     monkeypatch.setattr(settings, "db_path", str(tmp_path / "usage.db"))
+    monkeypatch.setattr(settings, "vector_store", "local")  # tests must not touch the live Azure index
     monkeypatch.setattr(rag.store, "dir", tmp_path / "index")
     monkeypatch.setattr(llm, "chat", lambda messages: ("FAKE ANSWER [azure_ai_search.md]", 42))
     rag.ingest("data")
