@@ -1,23 +1,20 @@
-"""API tests with the chat model faked, so they run offline. Embeddings are real (local)."""
+"""API behaviour in normal (dev) mode. The chat model and embeddings are faked in conftest.py."""
 import pytest
 from fastapi.testclient import TestClient
 
-from app import db, llm, main, rag
-from app.config import settings
+from app import db, llm, main
 
 
 @pytest.fixture()
-def client(tmp_path, monkeypatch):
-    monkeypatch.setattr(settings, "db_path", str(tmp_path / "usage.db"))
-    monkeypatch.setattr(settings, "vector_store", "local")  # tests must not touch the live Azure index
-    monkeypatch.setattr(rag.store, "dir", tmp_path / "index")
-    monkeypatch.setattr(llm, "chat", lambda messages: ("FAKE ANSWER [azure_ai_search.md]", 42))
-    rag.ingest("data")
+def client(indexed):
     return TestClient(main.app)
 
 
-def test_health_reports_indexed_chunks(client):
-    assert client.get("/health").json()["chunks_indexed"] > 0
+def test_health_reports_the_store_and_chunk_count(client):
+    body = client.get("/health").json()
+    assert body["status"] == "ok"
+    assert body["vector_store"] == "local"
+    assert body["chunks_indexed"] > 0
 
 
 def test_ask_answers_with_sources_and_logs_usage(client):
@@ -29,22 +26,31 @@ def test_ask_answers_with_sources_and_logs_usage(client):
     assert db.usage_summary()["total_tokens"] == 42
 
 
-def test_off_topic_question_is_refused_without_calling_llm(client, monkeypatch):
+def test_off_topic_question_is_refused_without_calling_the_llm(client, monkeypatch):
     def boom(messages):
         raise AssertionError("LLM must not be called for off-topic questions")
+
     monkeypatch.setattr(llm, "chat", boom)
     body = client.post("/ask", json={"question": "How do I bake a sourdough loaf?"}).json()
     assert "don't know" in body["answer"].lower()
     assert body["sources"] == []
+    assert body["tokens"] == 0
 
 
-def test_llm_failure_returns_502(client, monkeypatch):
+def test_llm_failure_returns_502_with_detail_in_dev_mode(client, monkeypatch):
     def fail(messages):
         raise ConnectionError("endpoint down")
+
     monkeypatch.setattr(llm, "chat", fail)
-    r = client.post("/ask", json={"question": "What does the semantic ranker do?"})
+    r = client.post("/ask", json={"question": "How big is the free tier of Azure AI Search?"})
     assert r.status_code == 502
+    assert "endpoint down" in r.json()["detail"]
 
 
-def test_empty_question_rejected(client):
+def test_empty_question_is_rejected(client):
     assert client.post("/ask", json={"question": ""}).status_code == 422
+
+
+def test_ingest_and_usage_are_open_in_dev_mode(client):
+    assert client.post("/ingest", json={"folder": "data"}).status_code == 200
+    assert client.get("/usage").status_code == 200

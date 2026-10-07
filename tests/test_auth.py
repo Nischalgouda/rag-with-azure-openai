@@ -1,4 +1,4 @@
-"""Tests for app/auth.py. They are written FIRST on purpose ("test-first"):
+﻿"""Tests for app/auth.py. They are written FIRST on purpose ("test-first"):
 they FAIL now, and your job is to make them pass.   Run:  pytest tests/test_auth.py -q
 
 Read each test: it is the spec. A test says "given this input, I expect this output".
@@ -95,7 +95,6 @@ def test_missing_and_wrong_key_give_the_same_error_message(client):
 
 
 # ----- STRETCH: revoke_key -------------------------------------------------------------
-@pytest.mark.skip(reason="STRETCH: delete this line once you've implemented revoke_key")
 def test_revoked_key_is_rejected(client):
     raw = auth.create_key("alice")
     assert auth.revoke_key("alice") == 1

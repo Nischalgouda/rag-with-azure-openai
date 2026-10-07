@@ -36,5 +36,18 @@ class Settings(BaseSettings):
     index_dir: str = "index"
     db_path: str = "usage.db"
 
+    # --- Public-demo behaviour. Off by default so a fork runs frictionless on localhost. ---
+    demo_mode: bool = False        # True on the public deployment: limits on, /ingest and /usage admin-only
+    demo_enabled: bool = True      # kill switch: False makes /ask return 503 immediately
+    admin_key_names: str = "admin"  # comma-separated key owners treated as admins in demo mode
+    daily_token_budget: int = 150_000   # global cap on model tokens per UTC day (stops runaway cost)
+    anon_daily_questions: int = 15      # per client IP per UTC day
+    keyed_daily_questions: int = 200    # per API key per UTC day
+    anon_burst: int = 4                 # token bucket capacity (anonymous)
+    anon_refill_seconds: float = 15.0   # seconds to earn one more request (anonymous)
+    keyed_burst: int = 10
+    keyed_refill_seconds: float = 4.0
+    static_dir: str = "static"          # built frontend served by app.server in the container
+
 
 settings = Settings()
