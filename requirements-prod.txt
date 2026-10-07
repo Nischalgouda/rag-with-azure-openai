@@ -1,0 +1,8 @@
+# Runtime dependencies for the hosted demo image (Azure OpenAI + Azure AI Search).
+# fastembed (local embeddings) is intentionally absent: it is only for the free "learn mode".
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic-settings>=2.2
+openai>=1.40
+azure-search-documents>=11.6
+numpy>=1.26
