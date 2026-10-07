@@ -1,0 +1,93 @@
+.main {
+  display: grid;
+  gap: var(--space-8);
+  max-width: var(--layout-max);
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-5) 0;
+}
+
+.hero {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.eyebrow {
+  justify-self: start;
+  padding: 3px var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+}
+
+.title {
+  font-size: var(--fs-hero);
+  font-weight: 750;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.035em;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.lead {
+  max-width: 62ch;
+  font-size: var(--fs-lg);
+  color: var(--text-muted);
+}
+
+.results {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (min-width: 1000px) {
+  .grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  }
+
+  /* the trace column is long: keep the answer in view beside it instead of leaving a gap */
+  .grid > :first-child {
+    position: sticky;
+    top: 84px;
+  }
+}
+
+.mockBanner {
+  margin: 0;
+  padding: var(--space-2) var(--space-5);
+  background: var(--notice-bg);
+  color: var(--notice-text);
+  border-bottom: 1px solid var(--notice-border);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+.skeleton {
+  height: 220px;
+  border-radius: var(--radius-3);
+  border: 1px solid var(--border);
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-sunken) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}

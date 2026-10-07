@@ -1,0 +1,152 @@
+.card {
+  display: grid;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-4);
+  box-shadow: var(--shadow-3);
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+
+.card:focus-within {
+  border-color: var(--focus);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 92px;
+  padding: var(--space-5) var(--space-6) var(--space-2);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-4) var(--radius-4) 0 0;
+  resize: none;
+  font-size: var(--fs-lg);
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+}
+
+.textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+/* the card shows the focus ring (focus-within); the borderless field must not draw a second one */
+.textarea:focus-visible {
+  outline: none;
+}
+
+.card:has(.textarea:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-6);
+  padding: var(--space-3) var(--space-4) var(--space-4) var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.mode {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 36ch;
+}
+
+.modeHelp {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.actions {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-4);
+  margin-left: auto;
+}
+
+.meta {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.quota {
+  font-weight: 600;
+  color: var(--text);
+}
+.quota[data-low="true"] {
+  color: var(--notice-text);
+}
+
+.hint kbd {
+  padding: 0 5px;
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: var(--surface-sunken);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.counter {
+  font-variant-numeric: tabular-nums;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 112px;
+  min-height: 44px;
+  padding: 0 var(--space-6);
+  border: 0;
+  border-radius: var(--radius-2);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 650;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.18) inset, 0 4px 12px -4px var(--accent);
+  transition: background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

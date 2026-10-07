@@ -1,0 +1,28 @@
+.banner {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius-3);
+  color: var(--danger-text);
+}
+
+.banner > svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.body {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.title {
+  font-size: var(--fs-md);
+  font-weight: 700;
+}
+
+.advice {
+  font-size: var(--fs-sm);
+}

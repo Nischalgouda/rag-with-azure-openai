@@ -1,0 +1,65 @@
+.panel {
+  display: grid;
+  /* minmax(0, 1fr): let the column shrink below its content so wide tables scroll inside it */
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-1);
+}
+
+.heading {
+  font-size: var(--fs-lg);
+}
+
+.stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.note {
+  padding: var(--space-3) var(--space-4);
+  background: var(--notice-bg);
+  border: 1px solid var(--notice-border);
+  border-radius: var(--radius-2);
+  color: var(--notice-text);
+  font-size: var(--fs-sm);
+}
+
+.verdict {
+  padding: var(--space-3) var(--space-4);
+  background: var(--ok-bg);
+  border: 1px solid var(--ok-border);
+  border-radius: var(--radius-2);
+  color: var(--ok-text);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.verdict[data-refused="true"] {
+  background: var(--notice-bg);
+  border-color: var(--notice-border);
+  color: var(--notice-text);
+}
+
+.sources {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+}
+
+.sources p {
+  color: var(--text-muted);
+}

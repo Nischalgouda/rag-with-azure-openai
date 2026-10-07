@@ -1,0 +1,119 @@
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  align-content: start;
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-1);
+  animation: rise var(--dur-base) var(--ease-out) both;
+}
+
+.step:nth-child(2) { animation-delay: 60ms; }
+.step:nth-child(3) { animation-delay: 120ms; }
+.step:nth-child(4) { animation-delay: 180ms; }
+
+/* a connector arrow into each step, only where the steps sit on one row */
+@media (min-width: 900px) {
+  .step + .step::before {
+    content: "";
+    position: absolute;
+    left: calc(-1 * var(--space-3) - 1px);
+    top: 50%;
+    width: var(--space-3);
+    border-top: 2px solid var(--border-strong);
+  }
+}
+
+.index {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface-sunken);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
+.title {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.main {
+  font-size: var(--fs-lg);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.sub {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  margin-top: var(--space-1);
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
+.step[data-state="passed"] {
+  border-color: var(--ok-border);
+}
+.step[data-state="passed"] .verdict {
+  background: var(--ok-bg);
+  color: var(--ok-text);
+  border: 1px solid var(--ok-border);
+}
+
+.step[data-state="refused"] {
+  border-color: var(--notice-border);
+}
+.step[data-state="refused"] .verdict {
+  background: var(--notice-bg);
+  color: var(--notice-text);
+  border: 1px solid var(--notice-border);
+}
+
+.step[data-state="skipped"] {
+  border-style: dashed;
+  background: transparent;
+  box-shadow: none;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

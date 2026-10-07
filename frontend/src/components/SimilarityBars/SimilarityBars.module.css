@@ -1,0 +1,204 @@
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* label | plot | value. The plot column is identical in every row, so the threshold rule lines up. */
+.row,
+.axisRow {
+  display: grid;
+  grid-template-columns: minmax(84px, 150px) minmax(0, 1fr) 84px;
+  align-items: center;
+  column-gap: var(--space-3);
+}
+
+.row {
+  min-height: 34px;
+  border-radius: var(--radius-1);
+  transition: background var(--dur-fast) var(--ease-out);
+}
+
+.row[data-selected="true"] {
+  background: var(--accent-soft);
+}
+
+.label {
+  display: grid;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.source {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.chunk {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}
+
+.plot,
+.axis {
+  display: block;
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+/* bars grow from the baseline; reduced-motion users get the end state immediately (global.css) */
+.bar rect {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: grow var(--dur-chart) var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+.bar[data-i="1"] rect { animation-delay: 45ms; }
+.bar[data-i="2"] rect { animation-delay: 90ms; }
+.bar[data-i="3"] rect { animation-delay: 135ms; }
+.bar[data-i="4"] rect { animation-delay: 180ms; }
+.bar[data-i="5"] rect { animation-delay: 225ms; }
+.bar[data-i="6"] rect { animation-delay: 270ms; }
+.bar[data-i="7"] rect { animation-delay: 315ms; }
+.bar[data-i="8"] rect { animation-delay: 360ms; }
+.bar[data-i="9"] rect { animation-delay: 405ms; }
+
+.bar[data-above="true"] rect {
+  fill: var(--mark-above);
+}
+.bar[data-above="false"] rect {
+  fill: var(--mark-below);
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.threshold {
+  stroke: var(--text);
+  stroke-width: 2;
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.num {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.sent {
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--ok-bg);
+  border: 1px solid var(--ok-border);
+  color: var(--ok-text);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.axisRow {
+  margin-top: calc(-1 * var(--space-1));
+}
+
+.axisLine {
+  stroke: var(--border-strong);
+  stroke-width: 1;
+}
+
+.tick {
+  fill: var(--text-muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.thresholdTick {
+  stroke: var(--text);
+  stroke-width: 2;
+}
+
+.thresholdLabel {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: right;
+  align-self: start;
+  padding-top: 2px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatchAbove,
+.swatchBelow {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  display: inline-block;
+}
+.swatchAbove {
+  background: var(--mark-above);
+}
+.swatchBelow {
+  background: var(--mark-below);
+}
+
+.more {
+  margin-left: auto;
+}
+
+.note {
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--mark-below);
+  background: var(--surface-sunken);
+  border-radius: 0 var(--radius-1) var(--radius-1) 0;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+@media (max-width: 520px) {
+  .row,
+  .axisRow {
+    grid-template-columns: minmax(64px, 96px) minmax(0, 1fr) 68px;
+    column-gap: var(--space-2);
+  }
+  .sent {
+    display: none; /* the printed "prompt" tag is also in the table below; keep the value readable */
+  }
+}

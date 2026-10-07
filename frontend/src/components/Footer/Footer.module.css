@@ -1,0 +1,14 @@
+.footer {
+  margin-top: var(--space-16);
+  border-top: 1px solid var(--border);
+}
+
+.inner {
+  display: grid;
+  gap: var(--space-1);
+  max-width: var(--layout-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5) var(--space-10);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
