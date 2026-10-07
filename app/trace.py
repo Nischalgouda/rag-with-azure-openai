@@ -1,8 +1,11 @@
 """Builds the retrieval trace returned by POST /ask when the client sends `trace: true`.
 The shape is the contract in docs/api-contract.md and mirrors frontend/src/api/schema.ts."""
+import re
 
 
 def _preview(text: str, limit: int = 180) -> str:
+    """A one-paragraph preview: markdown heading marks and newlines are noise in a table cell."""
+    text = re.sub(r"\s+", " ", re.sub(r"(?m)^\s*#+\s*", "", text)).strip()
     return text[:limit] + ("…" if len(text) > limit else "")
 
 

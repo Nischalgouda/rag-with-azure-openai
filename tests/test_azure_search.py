@@ -1,4 +1,4 @@
-"""The Azure AI Search adapter, tested against a fake search client (no network, no Azure)."""
+﻿"""The Azure AI Search adapter, tested against a fake search client (no network, no Azure)."""
 import pytest
 
 from app import azure_search
@@ -54,9 +54,11 @@ def test_hybrid_query_sends_both_text_and_vector(client):
 def test_a_trace_costs_two_extra_queries_vector_only_and_keyword_only(client):
     _, _, stages = azure_search.search(QUESTION, "hybrid", 3, want_trace=True)
     assert len(client.calls) == 3
-    main, vector, keyword = client.calls
-    assert "vector_queries" in vector and "search_text" not in vector
-    assert "search_text" in keyword and "vector_queries" not in keyword
+    # the queries run concurrently, so identify them by content rather than by order
+    hybrid = [c for c in client.calls if "vector_queries" in c and "search_text" in c]
+    vector_only = [c for c in client.calls if "vector_queries" in c and "search_text" not in c]
+    keyword_only = [c for c in client.calls if "search_text" in c and "vector_queries" not in c]
+    assert (len(hybrid), len(vector_only), len(keyword_only)) == (1, 1, 1)
     assert set(stages) == {"vector", "keyword", "fused"}
 
 

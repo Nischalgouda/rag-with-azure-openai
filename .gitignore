@@ -1,4 +1,4 @@
-.env
+﻿.env
 STUDY.md
 PROJECT_CONTEXT.md
 .venv/
@@ -6,3 +6,4 @@ __pycache__/
 index/
 usage.db
 .pytest_cache/
+static/

@@ -4,6 +4,8 @@ One index holds the text, the vector, and the source. A single query can run key
 (BM25) + vector (HNSW) search and fuse them with RRF server-side = hybrid search.
 Optionally the semantic ranker re-ranks the top results with a language model."""
 import time
+from concurrent.futures import ThreadPoolExecutor
+from functools import lru_cache
 
 import numpy as np
 from azure.core.credentials import AzureKeyCredential
@@ -69,8 +71,13 @@ def _index_client() -> SearchIndexClient:
     return SearchIndexClient(settings.search_endpoint, _credential())
 
 
+@lru_cache(maxsize=1)
 def _search_client() -> SearchClient:
+    """Cached so the underlying HTTP connection pool is reused across requests."""
     return SearchClient(settings.search_endpoint, settings.search_index_name, _credential())
+
+
+_pool = ThreadPoolExecutor(max_workers=6, thread_name_prefix="search")
 
 
 def upload(vectors: np.ndarray, records: list[dict]) -> None:
@@ -117,15 +124,26 @@ def search(question: str, mode: str, k: int, want_trace: bool = False):
     change whether a question is answered. The per-stage rankings need two extra queries
     (vector-only and keyword-only), which is why a trace is opt-in."""
     q = embed([question])[0]
-    main = _query(q, question, mode, k, semantic=settings.use_semantic_ranker and mode == "hybrid")
+    semantic = settings.use_semantic_ranker and mode == "hybrid"
+
+    if want_trace:
+        # The three queries are independent network calls, so run them concurrently:
+        # the trace then costs about one round trip instead of three.
+        f_main = _pool.submit(_query, q, question, mode, k, semantic)
+        f_vector = None if mode == "vector" else _pool.submit(_query, q, question, "vector", 50)
+        f_keyword = None if mode == "keyword" else _pool.submit(_query, q, question, "keyword", 50)
+        main = f_main.result()
+        vector = main if f_vector is None else f_vector.result()
+        keyword = main if f_keyword is None else f_keyword.result()
+    else:
+        main = _query(q, question, mode, k, semantic)
+        vector = keyword = []
 
     hits = [(c["cosine"], {"chunk_id": c["chunk_id"], "source": c["source"], "text": c["text"]}) for c in main]
     top = max((c["cosine"] for c in main), default=0.0)
 
     stages = None
     if want_trace:
-        vector = main if mode == "vector" else _query(q, question, "vector", 50)
-        keyword = main if mode == "keyword" else _query(q, question, "keyword", 50)
         stages = {
             "vector": ranked([{**c, "stage_score": c["cosine"]} for c in vector]),
             "keyword": ranked(keyword),
