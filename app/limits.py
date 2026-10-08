@@ -42,10 +42,24 @@ def _too_many(detail: str, retry_after: int) -> HTTPException:
     return HTTPException(status_code=429, detail=detail, headers={"Retry-After": str(retry_after)})
 
 
+def client_ip(request: Request) -> str:
+    """The visitor's address, resilient to spoofed X-Forwarded-For.
+
+    Each proxy APPENDS the address it saw to the right of the header, while everything to the left may
+    have been written by the client. So with N trusted proxies the real visitor is the Nth entry from the
+    right. With 0 trusted proxies the header is ignored entirely."""
+    hops = settings.trusted_proxy_hops
+    forwarded = request.headers.get("x-forwarded-for")
+    if hops > 0 and forwarded:
+        parts = [p.strip() for p in forwarded.split(",") if p.strip()]
+        if len(parts) >= hops:
+            return parts[-hops]
+    return request.client.host if request.client else "unknown"
+
+
 def guard_ask(request: Request, owner: str | None = Depends(auth.optional_api_key)) -> Caller:
     """Dependency for POST /ask. Raises 503 / 429 when the caller must not proceed."""
-    host = request.client.host if request.client else "unknown"
-    identity = f"key:{owner}" if owner else f"ip:{host}"
+    identity = f"key:{owner}" if owner else f"ip:{client_ip(request)}"
     cap = settings.keyed_daily_questions if owner else settings.anon_daily_questions
 
     if not settings.demo_mode:

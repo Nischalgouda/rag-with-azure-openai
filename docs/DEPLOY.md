@@ -81,6 +81,8 @@ Then try `curl -X POST https://<fqdn>/api/ingest -H "Content-Type: application/j
 ## If something fails
 - **Image pull error:** the package is still private. Make it public (step 1).
 - **Everything returns 502:** read the logs; usually a wrong deployment name or key in the secrets.
-- **Every visitor shares one rate limit:** the app is not seeing real client IPs. The image already starts uvicorn
-  with `--proxy-headers`; check the logs for the client address.
+- **Every visitor shares one rate limit:** the app is not seeing real client IPs. The image sets
+  `TRUSTED_PROXY_HOPS=1`, so the visitor is the last `X-Forwarded-For` entry (the one the platform appended;
+  earlier entries can be forged, which `tests/test_client_ip.py` pins). If you put another proxy in front
+  (for example Front Door), raise the hop count to match.
 - **First model call is slow:** expected for the first request after a restart (client setup).

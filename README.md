@@ -42,6 +42,9 @@ flowchart LR
 - API-key auth with hashed keys; anonymous visitors get a small allowance, key holders a larger one
 - Token-bucket rate limiting, per-caller daily caps, a **shared daily token budget** and a **kill switch**
 - `/ingest` and `/usage` are admin-only; upstream error details are not leaked
+- Visitor identity resists forged `X-Forwarded-For` headers (only the address our own proxy appended is trusted)
+- **Saved runs:** the example questions replay real captured answers instantly (no quota, no cost, still works if the
+  shared budget runs out); typed questions go live. Regenerate with `python -m scripts.capture_saved_runs`.
 - Strict security headers and a Content-Security-Policy with no inline scripts
 
 **Engineering**

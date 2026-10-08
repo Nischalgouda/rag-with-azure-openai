@@ -68,13 +68,57 @@ describe("App", () => {
     expect(JSON.parse(vi.mocked(fetch).mock.calls[0]![1]!.body as string)).toMatchObject({ mode: "keyword" });
   });
 
-  it("presents a refusal as a first-class outcome, not an error", async () => {
+  it("replays a saved real run for an example: instant, no request, no quota", async () => {
+    mockFetch(() => json(answered));
+    const user = userEvent.setup();
+    renderApp();
+    await user.click(screen.getByRole("button", { name: /hybrid search combine/ }));
+    expect(await screen.findByRole("heading", { name: "Answer" })).toBeInTheDocument();
+    expect(screen.getByText(/Saved run\./)).toBeInTheDocument();
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("presents a refusal as a first-class outcome, not an error (saved off-topic example)", async () => {
     mockFetch(() => json(refused));
     const user = userEvent.setup();
     renderApp();
     await user.click(screen.getByRole("button", { name: /bake a sourdough loaf/ }));
     expect(await screen.findByRole("heading", { name: /declined/i })).toBeInTheDocument();
+    expect(screen.getByText("No model call, no cost")).toBeInTheDocument();
     expect(screen.queryByRole("alert")).toBeNull();
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("'Run it live' sends a real request for the same question and drops the saved label", async () => {
+    mockFetch(() => json(answered));
+    const user = userEvent.setup();
+    renderApp();
+    await user.click(screen.getByRole("button", { name: /hybrid search combine/ }));
+    await user.click(await screen.findByRole("button", { name: "Run it live" }));
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    const body = JSON.parse(vi.mocked(fetch).mock.calls[0]![1]!.body as string);
+    expect(body.question).toMatch(/hybrid search combine/);
+    await waitFor(() => expect(screen.queryByText(/Saved run\./)).toBeNull());
+  });
+
+  it("runs an example live when a mode other than hybrid is selected (saved runs are hybrid)", async () => {
+    mockFetch(() => json(answered));
+    const user = userEvent.setup();
+    renderApp();
+    await user.click(screen.getByRole("radio", { name: "Vector" }));
+    await user.click(screen.getByRole("button", { name: /hybrid search combine/ }));
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    expect(JSON.parse(vi.mocked(fetch).mock.calls[0]![1]!.body as string)).toMatchObject({ mode: "vector" });
+    expect(screen.queryByText(/Saved run\./)).toBeNull();
+  });
+
+  it("a typed question always goes live, even if it equals an example", async () => {
+    mockFetch(() => json(answered));
+    const user = userEvent.setup();
+    renderApp();
+    await user.type(screen.getByLabelText(/Ask a question/), "Why is managed identity preferred over API keys?{Enter}");
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    expect(screen.queryByText(/Saved run\./)).toBeNull();
   });
 
   it("shows an actionable message for a rate limit", async () => {

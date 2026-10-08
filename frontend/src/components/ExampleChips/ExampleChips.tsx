@@ -1,17 +1,17 @@
+import examplesFile from "../../data/examples.json";
 import styles from "./ExampleChips.module.css";
 
-interface Example {
+export interface Example {
   question: string;
   kind: "answerable" | "off-topic";
 }
 
-/** Taken from the project's evaluation set: answerable questions plus one the corpus can't answer. */
-const EXAMPLES: readonly Example[] = [
-  { question: "How does hybrid search combine keyword and vector results?", kind: "answerable" },
-  { question: "Why is managed identity preferred over API keys?", kind: "answerable" },
-  { question: "What is the purpose of overlap between chunks?", kind: "answerable" },
-  { question: "How do I bake a sourdough loaf?", kind: "off-topic" },
-];
+/**
+ * The same list is read by scripts/capture_saved_runs.py, which records a real answer for each one, so a
+ * click replays instantly and costs nothing. Taken from the evaluation set: answerable questions plus one
+ * the corpus cannot answer.
+ */
+export const EXAMPLES = examplesFile as readonly Example[];
 
 interface Props {
   onPick: (question: string) => void;

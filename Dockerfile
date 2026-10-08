@@ -36,11 +36,13 @@ ENV DEMO_MODE=true \
     VECTOR_STORE=azure_search \
     EMBEDDING_PROVIDER=azure \
     LLM_PROVIDER=azure \
-    MIN_SCORE=0.23
+    MIN_SCORE=0.23 \
+    TRUSTED_PROXY_HOPS=1
 
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
   CMD python -c "import urllib.request, sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/health').status == 200 else 1)"
 
-# --proxy-headers: trust the platform ingress's X-Forwarded-For so per-IP limits see the real visitor.
-CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips=*"]
+# Visitor addresses come from limits.client_ip (TRUSTED_PROXY_HOPS=1: the last X-Forwarded-For entry, the one
+# the platform ingress appended). uvicorn's own --proxy-headers is NOT used: it would trust a client-forged value.
+CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]

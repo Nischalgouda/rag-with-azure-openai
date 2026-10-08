@@ -1,0 +1,6 @@
+[
+  { "question": "How does hybrid search combine keyword and vector results?", "kind": "answerable" },
+  { "question": "Why is managed identity preferred over API keys?", "kind": "answerable" },
+  { "question": "What is the purpose of overlap between chunks?", "kind": "answerable" },
+  { "question": "How do I bake a sourdough loaf?", "kind": "off-topic" }
+]

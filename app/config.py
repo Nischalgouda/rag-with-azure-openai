@@ -48,6 +48,10 @@ class Settings(BaseSettings):
     keyed_burst: int = 10
     keyed_refill_seconds: float = 4.0
     static_dir: str = "static"          # built frontend served by app.server in the container
+    # How many reverse proxies sit in front of the app. 0 = trust no forwarded headers (local dev).
+    # On Azure Container Apps the platform ingress is one hop, so the visitor's address is the LAST
+    # X-Forwarded-For entry (the one our own proxy appended). Earlier entries can be forged by the client.
+    trusted_proxy_hops: int = 0
 
 
 settings = Settings()

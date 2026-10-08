@@ -1,10 +1,11 @@
 """Production entrypoint: one process serving the API under /api and the built frontend at /.
 
-    uvicorn app.server:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips="*"
+    uvicorn app.server:app --host 0.0.0.0 --port 8000
 
-Same-origin serving means no CORS configuration is needed. `--proxy-headers` makes uvicorn trust
-X-Forwarded-For from the platform's ingress, so per-IP rate limits see the visitor's real address
-(only safe because the container is reachable solely through that ingress).
+Same-origin serving means no CORS configuration is needed. Per-visitor rate limits need the real client
+address: behind the platform ingress set TRUSTED_PROXY_HOPS=1 and app.limits.client_ip uses the LAST
+X-Forwarded-For entry (the one our own proxy appended). Earlier entries are client-supplied and can be
+forged, so uvicorn's --proxy-headers (which trusts them) is deliberately not used.
 
 For local development keep using `uvicorn app.main:app` plus the Vite dev server.
 """

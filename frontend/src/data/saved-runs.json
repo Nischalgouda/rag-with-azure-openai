@@ -1,0 +1,798 @@
+{
+  "generated_at": "2026-10-08",
+  "mode": "hybrid",
+  "chat_deployment": "gpt-4.1-mini",
+  "runs": {
+    "How does hybrid search combine keyword and vector results?": {
+      "answer": "Hybrid search in Azure AI Search combines keyword and vector search results by merging the two result lists using Reciprocal Rank Fusion (RRF) [azure_ai_search.md].",
+      "sources": [
+        {
+          "source": "azure_ai_search.md",
+          "score": 0.419,
+          "text": "# Azure AI Search overview\n\nAzure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that combines both. Hyb"
+        },
+        {
+          "source": "rag_concepts.md",
+          "score": 0.316,
+          "text": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context.\n\n# Chunking\n\nChunk size is a trade-off. Small chunks give preci"
+        },
+        {
+          "source": "docker_azure_deploy.md",
+          "score": 0.098,
+          "text": "# Containerising and deploying to Azure\n\nA Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt and install depende"
+        },
+        {
+          "source": "docker_azure_deploy.md",
+          "score": 0.155,
+          "text": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key.\n\n# Monitoring and cost\n\nUse Azure Monitor and Application Insights for log"
+        }
+      ],
+      "top_score": 0.41914159059524536,
+      "tokens": 589,
+      "trace": {
+        "mode": "hybrid",
+        "threshold": 0.23,
+        "decision": "answered",
+        "top_score": 0.41914159059524536,
+        "stages": {
+          "vector": [
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.4191,
+              "rank": 1,
+              "stage_score": 0.4191
+            },
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.3156,
+              "rank": 2,
+              "stage_score": 0.3156
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.2949,
+              "rank": 3,
+              "stage_score": 0.2949
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.1546,
+              "rank": 4,
+              "stage_score": 0.1546
+            },
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.1489,
+              "rank": 5,
+              "stage_score": 0.1489
+            },
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.0983,
+              "rank": 6,
+              "stage_score": 0.0983
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.052,
+              "rank": 7,
+              "stage_score": 0.052
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.0048,
+              "rank": 8,
+              "stage_score": 0.0048
+            }
+          ],
+          "keyword": [
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.4191,
+              "rank": 1,
+              "stage_score": 8.6239
+            },
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.0983,
+              "rank": 2,
+              "stage_score": 2.1946
+            },
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.3156,
+              "rank": 3,
+              "stage_score": 1.2639
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.1546,
+              "rank": 4,
+              "stage_score": 1.1945
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.0048,
+              "rank": 5,
+              "stage_score": 0.0984
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.052,
+              "rank": 6,
+              "stage_score": 0.0863
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.2949,
+              "rank": 7,
+              "stage_score": 0.0859
+            },
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.1489,
+              "rank": 8,
+              "stage_score": 0.0741
+            }
+          ],
+          "fused": [
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.4191,
+              "rank": 1,
+              "stage_score": 0.0333
+            },
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.3156,
+              "rank": 2,
+              "stage_score": 0.0325
+            },
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.0983,
+              "rank": 3,
+              "stage_score": 0.0318
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.1546,
+              "rank": 4,
+              "stage_score": 0.0317
+            }
+          ]
+        }
+      },
+      "session_id": "saved",
+      "latency_ms": 5146
+    },
+    "Why is managed identity preferred over API keys?": {
+      "answer": "Managed identity is preferred over API keys because it allows the container to authenticate to Azure OpenAI and Azure AI Search without storing any secret in the code, enhancing security in production environments [azure_ai_search.md, docker_azure_deploy.md].",
+      "sources": [
+        {
+          "source": "azure_ai_search.md",
+          "score": 0.359,
+          "text": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA.\n\n# Azure OpenAI overview\n\nAzure OpenAI Service hosts OpenAI models inside Az"
+        },
+        {
+          "source": "fastapi_basics.md",
+          "score": 0.401,
+          "text": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes.\n\n# Testing and errors\n\nUse TestClient from FastAPI to call endpoints in t"
+        },
+        {
+          "source": "docker_azure_deploy.md",
+          "score": 0.433,
+          "text": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key.\n\n# Monitoring and cost\n\nUse Azure Monitor and Application Insights for log"
+        },
+        {
+          "source": "fastapi_basics.md",
+          "score": 0.212,
+          "text": "# FastAPI basics\n\nFastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive OpenAPI document"
+        }
+      ],
+      "top_score": 0.4330599904060364,
+      "tokens": 535,
+      "trace": {
+        "mode": "hybrid",
+        "threshold": 0.23,
+        "decision": "answered",
+        "top_score": 0.4330599904060364,
+        "stages": {
+          "vector": [
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.4331,
+              "rank": 1,
+              "stage_score": 0.4331
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.4011,
+              "rank": 2,
+              "stage_score": 0.4011
+            },
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.3592,
+              "rank": 3,
+              "stage_score": 0.3592
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.2117,
+              "rank": 4,
+              "stage_score": 0.2117
+            },
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.2084,
+              "rank": 5,
+              "stage_score": 0.2084
+            },
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.186,
+              "rank": 6,
+              "stage_score": 0.186
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.1494,
+              "rank": 7,
+              "stage_score": 0.1494
+            },
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.0966,
+              "rank": 8,
+              "stage_score": 0.0966
+            }
+          ],
+          "keyword": [
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.3592,
+              "rank": 1,
+              "stage_score": 4.9144
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.4011,
+              "rank": 2,
+              "stage_score": 2.5574
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.2117,
+              "rank": 3,
+              "stage_score": 2.2142
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.4331,
+              "rank": 4,
+              "stage_score": 2.1572
+            },
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.2084,
+              "rank": 5,
+              "stage_score": 1.3937
+            },
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.186,
+              "rank": 6,
+              "stage_score": 0.9114
+            },
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.0966,
+              "rank": 7,
+              "stage_score": 0.2365
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.1494,
+              "rank": 8,
+              "stage_score": 0.1677
+            }
+          ],
+          "fused": [
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.3592,
+              "rank": 1,
+              "stage_score": 0.0328
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.4011,
+              "rank": 2,
+              "stage_score": 0.0328
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.4331,
+              "rank": 3,
+              "stage_score": 0.0325
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.2117,
+              "rank": 4,
+              "stage_score": 0.032
+            }
+          ]
+        }
+      },
+      "session_id": "saved",
+      "latency_ms": 3786
+    },
+    "What is the purpose of overlap between chunks?": {
+      "answer": "The purpose of overlap between chunks is to prevent facts from being cut in half at a boundary. This helps maintain the integrity of information when splitting documents into chunks for retrieval and embedding. Overlapping ensures that important context or facts that span chunk boundaries are preserved and not lost or split awkwardly between chunks. This is a trade-off in chunking to balance precision and context retention [rag_concepts.md].",
+      "sources": [
+        {
+          "source": "rag_concepts.md",
+          "score": 0.441,
+          "text": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context.\n\n# Chunking\n\nChunk size is a trade-off. Small chunks give preci"
+        },
+        {
+          "source": "rag_concepts.md",
+          "score": 0.381,
+          "text": "# What is RAG?\n\nRetrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your documents and inserts "
+        },
+        {
+          "source": "azure_ai_search.md",
+          "score": 0.162,
+          "text": "# Azure AI Search overview\n\nAzure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that combines both. Hyb"
+        },
+        {
+          "source": "azure_ai_search.md",
+          "score": 0.194,
+          "text": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA.\n\n# Azure OpenAI overview\n\nAzure OpenAI Service hosts OpenAI models inside Az"
+        }
+      ],
+      "top_score": 0.44106531143188477,
+      "tokens": 651,
+      "trace": {
+        "mode": "hybrid",
+        "threshold": 0.23,
+        "decision": "answered",
+        "top_score": 0.44106531143188477,
+        "stages": {
+          "vector": [
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.4411,
+              "rank": 1,
+              "stage_score": 0.4411
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.3808,
+              "rank": 2,
+              "stage_score": 0.3808
+            },
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.1943,
+              "rank": 3,
+              "stage_score": 0.1943
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.1726,
+              "rank": 4,
+              "stage_score": 0.1726
+            },
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.1619,
+              "rank": 5,
+              "stage_score": 0.1619
+            },
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.1435,
+              "rank": 6,
+              "stage_score": 0.1435
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.1368,
+              "rank": 7,
+              "stage_score": 0.1368
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.0795,
+              "rank": 8,
+              "stage_score": 0.0795
+            }
+          ],
+          "keyword": [
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.4411,
+              "rank": 1,
+              "stage_score": 7.0163
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.3808,
+              "rank": 2,
+              "stage_score": 5.6762
+            },
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.1619,
+              "rank": 3,
+              "stage_score": 0.3672
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.1726,
+              "rank": 4,
+              "stage_score": 0.3616
+            },
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.1943,
+              "rank": 5,
+              "stage_score": 0.3481
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.0795,
+              "rank": 6,
+              "stage_score": 0.2536
+            },
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.1435,
+              "rank": 7,
+              "stage_score": 0.2253
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.1368,
+              "rank": 8,
+              "stage_score": 0.0657
+            }
+          ],
+          "fused": [
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.4411,
+              "rank": 1,
+              "stage_score": 0.0333
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.3808,
+              "rank": 2,
+              "stage_score": 0.0328
+            },
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.1619,
+              "rank": 3,
+              "stage_score": 0.0318
+            },
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.1943,
+              "rank": 4,
+              "stage_score": 0.0318
+            }
+          ]
+        }
+      },
+      "session_id": "saved",
+      "latency_ms": 3292
+    },
+    "How do I bake a sourdough loaf?": {
+      "answer": "I don't know - nothing relevant in the indexed documents.",
+      "sources": [],
+      "top_score": 0.1467546820640564,
+      "tokens": 0,
+      "trace": {
+        "mode": "hybrid",
+        "threshold": 0.23,
+        "decision": "refused",
+        "top_score": 0.1467546820640564,
+        "stages": {
+          "vector": [
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.1468,
+              "rank": 1,
+              "stage_score": 0.1468
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.1179,
+              "rank": 2,
+              "stage_score": 0.1179
+            },
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.0942,
+              "rank": 3,
+              "stage_score": 0.0942
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.0904,
+              "rank": 4,
+              "stage_score": 0.0904
+            },
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.0722,
+              "rank": 5,
+              "stage_score": 0.0722
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.0722,
+              "rank": 6,
+              "stage_score": 0.0722
+            },
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.0692,
+              "rank": 7,
+              "stage_score": 0.0692
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.0589,
+              "rank": 8,
+              "stage_score": 0.0589
+            }
+          ],
+          "keyword": [
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.1468,
+              "rank": 1,
+              "stage_score": 2.8357
+            },
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.0942,
+              "rank": 2,
+              "stage_score": 0.0984
+            },
+            {
+              "chunk_id": 5,
+              "source": "fastapi_basics.md",
+              "text_preview": "and API keys. Dependencies injected with Depends are the standard way to share logic such as verifying a token on many routes. Testing and errors Use TestClient from FastAPI to cal…",
+              "cosine": 0.0589,
+              "rank": 3,
+              "stage_score": 0.0964
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.0904,
+              "rank": 4,
+              "stage_score": 0.0859
+            },
+            {
+              "chunk_id": 0,
+              "source": "azure_ai_search.md",
+              "text_preview": "Azure AI Search overview Azure AI Search is a managed search service. It stores documents in an index and supports full-text keyword search, vector search, and hybrid search that c…",
+              "cosine": 0.0692,
+              "rank": 5,
+              "stage_score": 0.0741
+            },
+            {
+              "chunk_id": 1,
+              "source": "azure_ai_search.md",
+              "text_preview": "scription with limited storage (50 MB) and up to three indexes. It is suitable for learning and small demos but has no SLA. Azure OpenAI overview Azure OpenAI Service hosts OpenAI …",
+              "cosine": 0.0722,
+              "rank": 6,
+              "stage_score": 0.0741
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.1179,
+              "rank": 7,
+              "stage_score": 0.0741
+            },
+            {
+              "chunk_id": 3,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "s or secrets, and prefer managed identity so the container authenticates to Azure OpenAI and Azure AI Search without any key. Monitoring and cost Use Azure Monitor and Application …",
+              "cosine": 0.0722,
+              "rank": 8,
+              "stage_score": 0.0657
+            }
+          ],
+          "fused": [
+            {
+              "chunk_id": 2,
+              "source": "docker_azure_deploy.md",
+              "text_preview": "Containerising and deploying to Azure A Dockerfile describes how to build an image: a base image, installed dependencies, copied code, and a start command. Copy requirements.txt an…",
+              "cosine": 0.1468,
+              "rank": 1,
+              "stage_score": 0.0333
+            },
+            {
+              "chunk_id": 7,
+              "source": "rag_concepts.md",
+              "text_preview": "on, find the nearest chunks by cosine similarity, build a prompt with those chunks, and ask the model to answer using only that context. Chunking Chunk size is a trade-off. Small c…",
+              "cosine": 0.0942,
+              "rank": 2,
+              "stage_score": 0.0325
+            },
+            {
+              "chunk_id": 4,
+              "source": "fastapi_basics.md",
+              "text_preview": "FastAPI basics FastAPI is a Python web framework for building REST APIs. It uses type hints and Pydantic models to validate request bodies automatically and to generate interactive…",
+              "cosine": 0.0904,
+              "rank": 3,
+              "stage_score": 0.0317
+            },
+            {
+              "chunk_id": 6,
+              "source": "rag_concepts.md",
+              "text_preview": "What is RAG? Retrieval-Augmented Generation (RAG) gives a language model facts it was never trained on. At question time the system retrieves the most relevant chunks of your docum…",
+              "cosine": 0.1179,
+              "rank": 4,
+              "stage_score": 0.0315
+            }
+          ]
+        }
+      },
+      "session_id": "saved",
+      "latency_ms": 838
+    }
+  }
+}
