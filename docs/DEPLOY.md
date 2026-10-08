@@ -69,7 +69,9 @@ a non-root user, serves the UI and API, keeps `/ingest` closed (401) and answers
    .\scripts\deploy_azure.ps1 -Image ghcr.io/nischalgouda/rag-with-azure-openai:0.2.0
    ```
    It prints the public URL when it finishes.
-4. **Create an admin key** inside the running container (the key is shown once):
+4. **Create an admin key** inside the running container (the key is shown once). Optional: visitors do not need a key.
+   Keys for other people are issued only on request, one at a time, the same way. They live on the container's disk,
+   so they are lost on the next redeploy.
    ```powershell
    az containerapp exec -n rag-xray -g rg-rag-demo --command "python -m scripts.create_key admin"
    ```

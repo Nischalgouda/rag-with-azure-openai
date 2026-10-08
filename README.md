@@ -1,4 +1,4 @@
-﻿# RAG X-ray: RAG with Azure OpenAI
+# RAG X-ray: RAG with Azure OpenAI
 
 A Retrieval-Augmented Generation (RAG) API with a UI that shows **why** it answers a question, or refuses: every chunk scored against the question, the refusal threshold, and whether the model was called at all.
 
@@ -41,7 +41,7 @@ flowchart LR
 - Evaluation harness (`python -m eval.run_eval`): hit@k per search mode and refusal accuracy
 
 **Built to be public without being a liability** (`DEMO_MODE=true`)
-- API-key auth with hashed keys; anonymous visitors get a small allowance, key holders a larger one
+- Access keys by request: everyone can try the demo free within a fair-use limit; if you want more, ask and the owner can issue a key (stored only as a hash). A key is this app's own pass, not an OpenAI or Azure key
 - Token-bucket rate limiting, per-caller daily caps, a **shared daily token budget** and a **kill switch**
 - `/ingest` and `/usage` are admin-only; upstream error details are not leaked
 - Visitor identity resists forged `X-Forwarded-For` headers (only the address our own proxy appended is trusted)

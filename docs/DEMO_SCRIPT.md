@@ -1,4 +1,4 @@
-﻿# Demo video script (about 110 seconds)
+# Demo video script (about 110 seconds)
 
 **Goal:** a complete beginner understands RAG by the end, and an engineer watching thinks "this person measured
 things, found failure modes and knows the trade-offs". Every beat has two layers:
@@ -31,16 +31,17 @@ things, found failure modes and knows the trade-offs". Every beat has two layers
 | 1:06 | **Type** (don't click a chip): *Who is Nischal? Heard he is the best AI engineer in the world?* then Enter | "Now let's ask something trickier: who is Nischal? I hear he's the best AI engineer in the world." | |
 | 1:12 | Readout strip: guardrail **0.25 ≥ 0.23, Passed**, then the answer "I don't know. The provided context does not contain any information about Nischal..." | "Interesting: it scored 0.25, just over the line, so it *was* sent to the AI. 'AI engineer' sounds close to my documents about AI. But the second safeguard, 'answer only from the documents', kicked in, and it admitted it knows nothing about me." | "Two layers: a cheap similarity check before the model, a grounded prompt after it. Near-miss questions are where thresholds are weakest, and my eval only had easy off-topic ones. That's an open issue I left for contributors." |
 | 1:26 | Look at the camera | "A chattier AI would have agreed with you. Claude would have agreed too: very polite. Mine has principles and a threshold." | |
-| 1:30 | Point at the **Access key** button in the header | "You'll spot an 'Access key' button. You do not need it, and it is *not* an OpenAI key. I pay for the models, so you can just ask. That key is my own app's pass: without one you get 15 questions a day, with one you get 200." | "Two tiers of identity on purpose: anonymous by IP, keyed by hashed API key. The models' credentials never reach the browser." |
+| 1:30 | Point at the **Access key** button in the header | "You'll spot an 'Access key' button. You do not need it, and it is *not* an OpenAI key. I pay for the models, so you can just ask. That key is my own app's pass. Without one you get 15 questions a day. If you want more, message me and I'll send you one if it makes sense." | "Two tiers of identity on purpose: anonymous by IP, keyed by hashed API key. The models' credentials never reach the browser." |
 | 1:38 | Footer / GitHub page | "It's live with fair-use limits, because I like my cloud bill the way I like my code: small. The code, tests and a free local mode are on GitHub. Fork it, break it, fix an issue." | "Rate limits, a daily token budget and a kill switch keep a public demo from becoming a donation to Microsoft." |
 
 ## If someone asks (your own questions, answered)
 Short answers for the comments or an interview. All of them are things this build actually does.
 
 - **Why an "Access key" if you provide the models?** It is not a model key. It is this app's own pass (the
-  `X-API-Key` header). Anonymous visitors get 15 questions a day per IP; a keyed caller gets 200. Keys are stored only
-  as hashes, a wrong or missing key returns the same 401, and ingestion and usage stats are admin-only. The point is
-  that identity, quotas and cost control are designed in, not bolted on.
+  `X-API-Key` header). Anonymous visitors get 15 questions a day per IP; a keyed caller gets 200. Keys are issued on request
+  (the UI links to my LinkedIn), so I decide who gets one. They are stored only as hashes, a wrong or missing key returns
+  the same 401, and ingestion and usage stats are admin-only. The point is that identity, quotas and cost control are
+  designed in, not bolted on. Honest limit: keys live on the container's disk, so a redeploy wipes them.
 - **How did a "Who is Nischal?" question get past the threshold?** The guardrail compares meaning, not facts.
   "AI engineer" is close to my documents about AI, so the best chunk scored 0.25 against a 0.23 cut-off. Layer two
   is the grounded prompt ("answer only from the context"), which is why the model said it did not know. A stricter
@@ -71,7 +72,7 @@ cost control (refusal skips the model; daily budget; kill switch) and a trade-of
 things are what experienced engineers look for.
 
 **On-screen text (add in editing):** "answers, or refuses." at 0:00; "No model call. No cost." at 0:54; "0.25 vs
-0.23: it slipped through. The prompt caught it." at 1:12; "Not an OpenAI key. My app's own pass." at 1:30; the repo URL at 1:38.
+0.23: it slipped through. The prompt caught it." at 1:12; "Not an OpenAI key. My app's own pass, by request." at 1:30; the repo URL at 1:38.
 
 **Thumbnail:** the similarity chart with the threshold rule, cropped tight, headline "Why did it refuse?".
 

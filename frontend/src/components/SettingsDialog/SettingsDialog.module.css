@@ -82,3 +82,20 @@
 .secondary:hover {
   border-color: var(--text);
 }
+
+.link {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.fine {
+  margin: 0 0 var(--space-4);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-base);
+  color: var(--text-muted);
+}
+.fine code {
+  font-family: var(--font-mono);
+}

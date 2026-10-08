@@ -1,4 +1,4 @@
-﻿# RAG X-ray (frontend)
+# RAG X-ray (frontend)
 
 A React + TypeScript UI that shows *why* a RAG system answers a question, or refuses: every chunk
 scored against the question, the refusal threshold, the vector / keyword / fused rankings, and which
@@ -42,7 +42,7 @@ npm run build       # production build (~110 KB gzipped JS)
   `prefers-reduced-motion` respected, charts that are never colour-only (fill and ring also encode state)
   and have table equivalents.
 - **Safe rendering.** Model output is rendered as text nodes, never HTML, so it cannot inject markup.
-- **Secrets.** The API key lives in `sessionStorage` (this tab only) and is sent only as `X-API-Key`.
+- **Secrets.** An optional access key (issued on request by the owner) lives in `sessionStorage` (this tab only) and is sent only as `X-API-Key`. The server stores only its hash. It is the app's own pass, not a model key.
 - **State.** Server state in TanStack Query; small UI preferences in Zustand (theme and mode persist,
   the key does not go to `localStorage`).
 - **Performance.** No webfonts or UI framework; the mock layer is code-split out of the production bundle.

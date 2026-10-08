@@ -3,6 +3,8 @@ import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { useSession } from "../../store/settings";
 import styles from "./SettingsDialog.module.css";
 
+const REQUEST_URL = "https://linkedin.com/in/nischalgouda-patil-39b439279";
+
 interface Props {
   open: boolean;
   onClose: () => void;
@@ -40,10 +42,18 @@ export function SettingsDialog({ open, onClose }: Props) {
           Access key
         </h2>
         <p className={styles.text}>
-          Optional. The demo works without one, with a fair-use limit per visitor per day. An access key from the owner
-          raises that limit. It is not an OpenAI or Azure key: the models are provided, and no model credentials ever reach
-          this page. The key stays in this browser tab (session storage) and is sent only as the <code>X-API-Key</code>
-          header to this app&rsquo;s own API.
+          You do not need a key. Anyone can ask a limited number of questions a day for free. If you would like more,
+          for example to evaluate it properly, message me and I will send you a key if it makes sense. It is not an OpenAI
+          or Azure key: the models are provided, and no model credentials ever reach this page.
+        </p>
+        <p className={styles.text}>
+          <a className={styles.link} href={REQUEST_URL} target="_blank" rel="noreferrer noopener">
+            Request a key on LinkedIn<span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </p>
+        <p className={styles.fine}>
+          A key you paste stays in this browser tab only (session storage) and is sent as the <code>X-API-Key</code>{" "}
+          header to this app&rsquo;s own API. The server keeps only a one-way hash of keys, never the key itself.
         </p>
         <label htmlFor={`${uid}-key`} className={styles.label}>
           Access key

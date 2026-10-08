@@ -86,6 +86,10 @@ RankedChunk = {
 Admin keys are those whose owner name is listed in `ADMIN_KEY_NAMES` (default `admin`).
 Create one with `python -m scripts.create_key admin`.
 
+Keys are issued by request, not self-service: a visitor asks the owner (the UI links to LinkedIn), and the owner runs
+`python -m scripts.create_key <name>` and sends the key. Every key gets the same limits (below). Keys live in the app's
+SQLite file, which is on the container's own disk, so they are lost on a redeploy unless a persistent volume is added.
+
 ## Demo-mode limits (all configurable in `app/config.py` / environment)
 
 | Rule | Default |
