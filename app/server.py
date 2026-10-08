@@ -12,6 +12,7 @@ For local development keep using `uvicorn app.main:app` plus the Vite dev server
 from pathlib import Path
 
 from fastapi import FastAPI, Request
+from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
@@ -28,6 +29,18 @@ SECURITY_HEADERS = {
         "connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
     ),
 }
+
+
+# The mounted API app has its own interactive docs and OpenAPI schema (under /api). The public demo does not
+# need to advertise its endpoint map, so they are hidden in demo mode (404) and stay available locally.
+HIDDEN_IN_DEMO = {"/api/docs", "/api/redoc", "/api/openapi.json", "/api/docs/oauth2-redirect"}
+
+
+@app.middleware("http")
+async def hide_schema_in_demo(request: Request, call_next):
+    if settings.demo_mode and request.url.path.rstrip("/") in HIDDEN_IN_DEMO:
+        return PlainTextResponse("Not Found", status_code=404)
+    return await call_next(request)
 
 
 @app.middleware("http")

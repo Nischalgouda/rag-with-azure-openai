@@ -2,6 +2,7 @@
 from fastapi.testclient import TestClient
 
 from app import server
+from app.config import settings
 
 
 def test_api_is_mounted_under_api_prefix():
@@ -25,3 +26,16 @@ def test_the_content_security_policy_forbids_inline_scripts():
 
 def test_interactive_docs_are_not_exposed_at_the_root():
     assert TestClient(server.app).get("/docs").status_code == 404
+
+
+def test_the_api_schema_and_docs_are_hidden_in_demo_mode(monkeypatch):
+    monkeypatch.setattr(settings, "demo_mode", True)
+    client = TestClient(server.app)
+    for path in ("/api/openapi.json", "/api/docs", "/api/redoc", "/api/docs/"):
+        assert client.get(path).status_code == 404, path
+    assert client.get("/api/health").status_code == 200  # the real API is unaffected
+
+
+def test_the_api_schema_stays_available_outside_demo_mode(monkeypatch):
+    monkeypatch.setattr(settings, "demo_mode", False)
+    assert TestClient(server.app).get("/api/openapi.json").status_code == 200
