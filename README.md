@@ -97,7 +97,7 @@ npm run dev       # UI against the real API (proxied at /api)
 
 ## Running it as a hosted demo
 
-One container serves the UI and the API. See [docs/DEPLOY.md](docs/DEPLOY.md) for the runbook (Azure Container Apps) and [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) for a demo-video script.
+One container serves the UI and the API. See [docs/DEPLOY.md](docs/DEPLOY.md) for the runbook (Azure Container Apps).
 
 ## Project layout
 

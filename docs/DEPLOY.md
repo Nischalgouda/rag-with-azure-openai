@@ -1,7 +1,7 @@
 # Deploying the hosted demo (Azure Container Apps)
 
 One container serves the UI and the API (`app.server`). It talks to the Azure OpenAI and Azure AI Search
-resources you already created. Nothing here is deployed yet; this is the runbook.
+resources you already created. This is the runbook.
 
 > **Status:** the container's behaviour was verified by running the same entrypoint locally against live
 > Azure (UI, `/api`, CSP, limits, refusals). The Docker image build, the CI workflow and `deploy_azure.ps1`
@@ -9,7 +9,7 @@ resources you already created. Nothing here is deployed yet; this is the runbook
 
 ## Current deployment (verified live)
 - **App:** `rag-xray` on Azure Container Apps, **Central US**, one always-on replica (0.25 CPU, 0.5 GB), public HTTPS.
-- **Image:** `ragxray250283.azurecr.io/rag-xray:0.2.0` in a Basic container registry (East US).
+- **Image:** `<your-registry>.azurecr.io/rag-xray:<tag>` in a Basic Azure Container Registry (the script creates it).
 - **Verified from outside:** UI over HTTPS with CSP, `/api/health`, a real question through Azure OpenAI and Azure AI
   Search, `/api/ingest` and `/api/usage` return 401, `/docs` hidden, the burst limit returns 429 even when the
   client forges `X-Forwarded-For`, and the app logs the visitor's real public address (so `TRUSTED_PROXY_HOPS=1` is right).
@@ -39,7 +39,7 @@ resources you already created. Nothing here is deployed yet; this is the runbook
   zero (a scaled-to-zero app would forget the day's usage on every cold start). An idle replica costs little but
   not nothing: check current Container Apps pricing. A shared store (Redis or a database) is the proper fix.
 - Your account runs on free credit. If it has not been upgraded to pay-as-you-go, Azure stops paid services
-  when the credit is used up, which is a hard ceiling on the worst case. The credit expires **3 Nov 2026**.
+  when the credit is used up, which is a hard ceiling on the worst case. Check when your credit expires.
 
 ## Fastest path (no GitHub package needed)
 The default `-Registry acr` mode builds the image **inside Azure** from your local folder (`az acr build`) and
@@ -78,7 +78,7 @@ a non-root user, serves the UI and API, keeps `/ingest` closed (401) and answers
    The `rag-chunks` index already exists in Azure AI Search, so no re-ingest is needed.
 5. **Set a budget alert** (done for this subscription; reproducible with the script):
    ```powershell
-   .\scripts\set_budget.ps1 -Email you@example.com     # 1000 per month in your billing currency (INR here)
+   .\scripts\set_budget.ps1 -Email you@example.com     # 1000 per month in your billing currency
    ```
    Alerts at 50%, 80% and 100% of actual spend and at a 100% forecast. A budget only sends email; it does not stop
    spending. The brakes are the app's daily token budget, the kill switch below, and your free credit.
