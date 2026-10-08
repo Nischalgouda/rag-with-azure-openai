@@ -4,8 +4,8 @@
   live Azure resources (from .env). Use this to rehearse and to record the demo video.
 
 .EXAMPLE
-  .\scripts\run_demo.ps1            # builds the UI if needed, warms the model, opens the browser
-  .\scripts\run_demo.ps1 -Rebuild   # force a fresh UI build after frontend changes
+  .\scripts\run_demo.ps1            # rebuilds the UI if its sources changed, warms the model, opens the browser
+  .\scripts\run_demo.ps1 -Rebuild   # force a fresh UI build
   .\scripts\run_demo.ps1 -NoBrowser
 
 .NOTES
@@ -24,7 +24,17 @@ Set-Location (Split-Path $PSScriptRoot -Parent)
 if (-not (Test-Path ".\.venv\Scripts\python.exe")) { throw "No .venv found. Follow 'Quick start' in the README first." }
 if (-not (Test-Path ".\.env")) { throw "No .env found. Copy .env.example to .env and fill it in." }
 
-if ($Rebuild -or -not (Test-Path ".\frontend\dist\index.html")) {
+# Rebuild whenever any UI source file is newer than the last build, so the launcher can never serve a stale UI
+# (an old dist/ once hid the saved-run feature). A build takes a few seconds.
+$distIndex = ".\frontend\dist\index.html"
+$stale = -not (Test-Path $distIndex)
+if (-not $stale) {
+  $built = (Get-Item $distIndex).LastWriteTime
+  $newest = Get-ChildItem .\frontend\src, .\frontend\public, .\frontend\index.html, .\frontend\package.json -Recurse -File -ErrorAction SilentlyContinue |
+    Sort-Object LastWriteTime -Descending | Select-Object -First 1
+  $stale = $newest -and $newest.LastWriteTime -gt $built
+}
+if ($Rebuild -or $stale) {
   Write-Host "Building the UI..." -ForegroundColor Cyan
   Push-Location frontend
   if (-not (Test-Path "node_modules")) { npm install }
