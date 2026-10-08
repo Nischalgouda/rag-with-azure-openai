@@ -1,4 +1,4 @@
-﻿import { useSession, useSettings, type ThemePreference } from "../../store/settings";
+import { useSession, useSettings, type ThemePreference } from "../../store/settings";
 import { Icon } from "../ui/Icon";
 import { Logo } from "../ui/Logo";
 import { SegmentedControl, type SegmentedOption } from "../ui/SegmentedControl";
@@ -33,7 +33,7 @@ export function Header({ onOpenSettings }: Props) {
           <SegmentedControl legend="Theme" name="theme" value={theme} options={THEMES} onChange={setTheme} />
           <button type="button" className={styles.button} onClick={onOpenSettings}>
             <Icon name="key" />
-            <span>{hasKey ? "API key set" : "API key"}</span>
+            <span>{hasKey ? "Access key set" : "Access key"}</span>
           </button>
           <a
             className={styles.button}

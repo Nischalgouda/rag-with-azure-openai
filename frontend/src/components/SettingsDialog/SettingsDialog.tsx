@@ -37,15 +37,16 @@ export function SettingsDialog({ open, onClose }: Props) {
     <dialog ref={ref} className={styles.dialog} aria-labelledby={`${uid}-title`} onClose={onClose}>
       <form onSubmit={save} className={styles.form}>
         <h2 id={`${uid}-title`} className={styles.title}>
-          API key
+          Access key
         </h2>
         <p className={styles.text}>
-          The demo may require a key. It is kept in this browser tab only (session storage), is sent only
-          as the <code>X-API-Key</code> header to this app&rsquo;s own API, and is never stored on a server
-          by this page.
+          Optional. The demo works without one, with a fair-use limit per visitor per day. An access key from the owner
+          raises that limit. It is not an OpenAI or Azure key: the models are provided, and no model credentials ever reach
+          this page. The key stays in this browser tab (session storage) and is sent only as the <code>X-API-Key</code>
+          header to this app&rsquo;s own API.
         </p>
         <label htmlFor={`${uid}-key`} className={styles.label}>
-          Key
+          Access key
         </label>
         <input
           id={`${uid}-key`}

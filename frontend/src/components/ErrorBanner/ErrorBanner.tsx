@@ -5,7 +5,7 @@ import styles from "./ErrorBanner.module.css";
 
 const TITLES: Record<ApiErrorKind, string> = {
   network: "Can't reach the server",
-  auth: "API key required",
+  auth: "Access key required",
   rate_limit: "Rate limit reached",
   validation: "That question can't be processed",
   upstream: "The model service had a problem",
@@ -14,7 +14,7 @@ const TITLES: Record<ApiErrorKind, string> = {
 };
 
 const ADVICE: Partial<Record<ApiErrorKind, string>> = {
-  auth: "Add a valid API key with the button in the header, then ask again.",
+  auth: "Add a valid access key with the button in the header, then ask again.",
   network: "Check your connection and that the API is running, then try again.",
   upstream: "This is usually temporary. Try again in a moment.",
 };
