@@ -3,9 +3,16 @@
 **Goal:** a viewer who has never heard of RAG understands, in under 90 seconds, that this system makes a *decision*
 about every question, and can see the decision.
 
-**Recording setup:** browser window 1280x720 or 1920x1080, **dark theme** (it photographs best), zoom 100%.
-Close the API-key dialog and hide any tabs and bookmarks. Record the hosted URL, not localhost.
-Do one dry run first so the first Azure call is warm (the first request after a restart is the slowest).
+**Before you record (2 minutes)**
+1. `.\scripts\run_demo.ps1` starts everything (UI + API, live Azure) and sends one warm-up question so the first
+   on-camera answer is not the slow one. Add `-Rebuild` if you changed the frontend.
+2. Rehearse the whole script once with the browser open. Answers take about 3 to 5 s; refusals about 1 to 2 s.
+3. Do not open `.env` or the Azure Keys pages on camera. Close the API-key dialog.
+4. Set the theme to **Dark**, zoom to 100%, hide bookmarks and extra tabs.
+5. Locally the daily limit is off, so you can retake as often as you like. On the hosted URL each visitor gets 15 a day.
+
+**Recording setup:** browser window 1280x720 or 1920x1080. Recording the hosted URL looks more credible once it is live;
+until then `localhost:8010` is fine as long as the address bar is cropped out.
 
 | Time | On screen | You say |
 |---|---|---|

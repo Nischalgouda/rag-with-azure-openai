@@ -68,6 +68,9 @@ npm run mock      # UI with simulated responses: no backend, no Azure needed
 npm run dev       # UI against the real API (proxied at /api)
 ```
 
+**Run the whole thing like production in one command** (builds the UI if needed, warms the model, opens the browser):
+`.\scripts\run_demo.ps1`
+
 `POST /ingest` indexes `data/`; `POST /ask` takes `{"question": "...", "mode": "hybrid", "trace": true}`.
 
 **Free local mode:** set `EMBEDDING_PROVIDER=local`, `LLM_PROVIDER=openai_compatible` (for example Ollama), `VECTOR_STORE=local` and `MIN_SCORE=0.52`. No Azure account needed.
