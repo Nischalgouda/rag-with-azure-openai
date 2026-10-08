@@ -17,23 +17,9 @@ body {
   font-family: var(--font-sans);
   font-size: var(--fs-md);
   line-height: var(--lh-base);
-  font-feature-settings: "cv11", "ss03"; /* single-storey a, round dots: friendlier numerals and letters */
+  font-feature-settings: "cv11", "ss03"; /* single-storey a, round dots */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-}
-
-/* The page backdrop: a soft accent glow with a faint grid that fades out. Pure CSS, no images. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(60% 45% at 50% -5%, var(--glow), transparent 70%),
-    linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 44px 44px,
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 44px 44px;
-  mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 80%);
 }
 
 h1,
@@ -92,9 +78,9 @@ a {
   top: -100px;
   z-index: 100;
   padding: var(--space-2) var(--space-4);
-  background: var(--accent);
-  color: var(--on-accent);
-  border-radius: var(--radius-1);
+  background: var(--ink);
+  color: var(--on-ink);
+  border-radius: var(--radius-2);
   text-decoration: none;
 }
 .skip-link:focus {

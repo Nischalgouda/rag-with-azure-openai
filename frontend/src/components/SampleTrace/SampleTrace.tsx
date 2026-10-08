@@ -1,4 +1,4 @@
-import { SAMPLE_QUESTION, SAMPLE_TRACE } from "../../lib/sample";
+﻿import { SAMPLE_QUESTION, SAMPLE_TRACE } from "../../lib/sample";
 import { SimilarityBars } from "../SimilarityBars/SimilarityBars";
 import styles from "./SampleTrace.module.css";
 
@@ -17,13 +17,19 @@ export function SampleTrace() {
         </p>
         <ul className={styles.points}>
           <li>
-            <strong>Each bar</strong> is a chunk, scored by how close its meaning is to the question.
+            <span>
+              <strong>Each bar</strong> is a chunk, scored by how close its meaning is to the question.
+            </span>
           </li>
           <li>
-            <strong>The black rule</strong> is the refusal threshold. Nothing past it, no answer.
+            <span>
+              <strong>The vertical rule</strong> is the refusal threshold. Nothing past it, no answer.
+            </span>
           </li>
           <li>
-            <strong>Tagged chunks</strong> are the ones actually placed in the model&rsquo;s prompt.
+            <span>
+              <strong>Tagged chunks</strong> are the ones actually placed in the model&rsquo;s prompt.
+            </span>
           </li>
         </ul>
       </div>

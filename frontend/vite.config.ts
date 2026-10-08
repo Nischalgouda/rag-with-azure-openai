@@ -15,6 +15,11 @@ export default defineConfig({
       },
     },
   },
+  build: {
+    // Never inline assets as data: URIs. The production Content-Security-Policy forbids them, and tiny
+    // font subsets would otherwise be inlined and blocked (a console error in production).
+    assetsInlineLimit: 0,
+  },
   test: {
     environment: "jsdom",
     globals: true,

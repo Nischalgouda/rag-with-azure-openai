@@ -1,4 +1,4 @@
-import { useSession, useSettings, type ThemePreference } from "../../store/settings";
+﻿import { useSession, useSettings, type ThemePreference } from "../../store/settings";
 import { Icon } from "../ui/Icon";
 import { SegmentedControl, type SegmentedOption } from "../ui/SegmentedControl";
 import styles from "./Header.module.css";
@@ -22,10 +22,10 @@ export function Header({ onOpenSettings }: Props) {
     <header className={styles.header}>
       <div className={styles.inner}>
         <a className={styles.brand} href="/" aria-label="RAG X-ray, home">
-          <svg aria-hidden="true" width="30" height="30" viewBox="0 0 32 32" className={styles.logo}>
-            <rect width="32" height="32" rx="9" fill="currentColor" />
-            <circle cx="14" cy="14" r="6" fill="none" stroke="var(--on-accent)" strokeWidth="2.5" />
-            <path d="M19 19l6 6" stroke="var(--on-accent)" strokeWidth="2.5" strokeLinecap="round" />
+          <svg aria-hidden="true" width="26" height="26" viewBox="0 0 32 32" className={styles.logo}>
+            <rect width="32" height="32" rx="7" fill="currentColor" />
+            <circle cx="14" cy="14" r="6" fill="none" stroke="var(--on-ink)" strokeWidth="2.5" />
+            <path d="M19 19l6 6" stroke="var(--on-ink)" strokeWidth="2.5" strokeLinecap="round" />
           </svg>
           <span className={styles.name}>RAG X-ray</span>
         </a>

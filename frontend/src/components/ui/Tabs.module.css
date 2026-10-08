@@ -1,4 +1,4 @@
-.list {
+﻿.list {
   display: flex;
   gap: var(--space-1);
   border-bottom: 1px solid var(--border);
@@ -36,7 +36,8 @@
 .count {
   min-width: 20px;
   padding: 0 6px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-1);
+  font-family: var(--font-mono);
   background: var(--surface-sunken);
   border: 1px solid var(--border);
   font-size: var(--fs-xs);

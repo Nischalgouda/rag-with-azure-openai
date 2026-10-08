@@ -1,44 +1,51 @@
 .main {
   display: grid;
-  gap: var(--space-8);
+  gap: var(--space-12);
   max-width: var(--layout-max);
   margin: 0 auto;
-  padding: var(--space-10) var(--space-5) 0;
+  padding: var(--space-12) var(--space-5) 0;
 }
 
+/* left-aligned and asymmetric on purpose: a centred hero is the default AI-generated layout */
 .hero {
   display: grid;
   gap: var(--space-5);
-  max-width: 860px;
-  margin: 0 auto;
-  width: 100%;
+  max-width: 780px;
 }
 
-.eyebrow {
-  justify-self: start;
-  padding: 3px var(--space-3);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
   font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.kicker::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--mark-above);
 }
 
 .title {
   font-size: var(--fs-hero);
-  font-weight: 750;
+  font-weight: 650;
   line-height: var(--lh-tight);
-  letter-spacing: -0.035em;
+  letter-spacing: -0.04em;
 }
 
-.accent {
-  color: var(--accent);
+/* two-tone headline: contrast comes from weight of ink, not from a coloured phrase */
+.soft {
+  color: var(--text-muted);
 }
 
 .lead {
-  max-width: 62ch;
+  max-width: 54ch;
   font-size: var(--fs-lg);
   color: var(--text-muted);
 }
@@ -63,7 +70,7 @@
   /* the trace column is long: keep the answer in view beside it instead of leaving a gap */
   .grid > :first-child {
     position: sticky;
-    top: 84px;
+    top: 72px;
   }
 }
 
@@ -73,12 +80,13 @@
   background: var(--notice-bg);
   color: var(--notice-text);
   border-bottom: 1px solid var(--notice-border);
-  font-size: var(--fs-sm);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
   text-align: center;
 }
 
 .skeleton {
-  height: 220px;
+  height: 200px;
   border-radius: var(--radius-3);
   border: 1px solid var(--border);
   background: linear-gradient(90deg, var(--surface) 25%, var(--surface-sunken) 50%, var(--surface) 75%);

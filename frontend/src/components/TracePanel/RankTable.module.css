@@ -1,4 +1,4 @@
-.scroll {
+﻿.scroll {
   overflow-x: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius-2);
@@ -14,8 +14,11 @@
 .table th {
   padding: var(--space-2) var(--space-3);
   text-align: left;
-  font-size: var(--fs-xs);
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   color: var(--text-muted);
   background: var(--surface-sunken);
   border-bottom: 1px solid var(--border);
@@ -60,11 +63,12 @@
 
 .badge {
   padding: 0 var(--space-2);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-1);
   background: var(--ok-bg);
   border: 1px solid var(--ok-border);
   color: var(--ok-text);
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
   font-weight: 600;
   line-height: 18px;
 }

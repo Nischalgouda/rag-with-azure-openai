@@ -66,12 +66,12 @@
 
 .primary {
   border: 0;
-  background: var(--accent);
-  color: var(--on-accent);
+  background: var(--ink);
+  color: var(--on-ink);
 }
 
 .primary:hover {
-  background: var(--accent-hover);
+  background: var(--ink-hover);
 }
 
 .secondary {
@@ -80,5 +80,5 @@
 }
 
 .secondary:hover {
-  border-color: var(--accent);
+  border-color: var(--text);
 }

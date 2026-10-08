@@ -3,8 +3,8 @@
   top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  backdrop-filter: saturate(1.4) blur(12px);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(1.2) blur(10px);
 }
 
 .inner {
@@ -21,19 +21,19 @@
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
   color: var(--text);
   text-decoration: none;
 }
 
 .logo {
-  color: var(--accent);
+  color: var(--ink);
   flex: none;
 }
 
 .name {
-  font-size: var(--fs-lg);
-  font-weight: 700;
+  font-size: var(--fs-md);
+  font-weight: 650;
   letter-spacing: -0.02em;
 }
 
@@ -44,22 +44,24 @@
   gap: var(--space-2) var(--space-3);
 }
 
+/* quiet text-weight controls: no heavy bordered buttons competing with the content */
 .button {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  min-height: 38px;
-  padding: 0 var(--space-3);
-  border: 1px solid var(--border-strong);
+  min-height: 32px;
+  padding: 0 var(--space-2);
+  border: 0;
   border-radius: var(--radius-2);
-  background: var(--surface);
-  color: var(--text);
+  background: transparent;
+  color: var(--text-muted);
   font-size: var(--fs-sm);
   font-weight: 500;
   text-decoration: none;
-  transition: border-color var(--dur-fast) var(--ease-out);
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
 }
 
 .button:hover {
-  border-color: var(--accent);
+  color: var(--text);
+  background: var(--surface-sunken);
 }

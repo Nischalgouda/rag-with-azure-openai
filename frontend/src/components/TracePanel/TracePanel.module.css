@@ -1,24 +1,27 @@
 .panel {
   display: grid;
-  /* minmax(0, 1fr): let the column shrink below its content so wide tables scroll inside it */
   grid-template-columns: minmax(0, 1fr);
   align-content: start;
-  gap: var(--space-4);
-  padding: var(--space-5);
+  gap: var(--space-5);
+  padding: var(--space-6);
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-3);
-  box-shadow: var(--shadow-1);
 }
 
 .heading {
-  font-size: var(--fs-lg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
 .stack {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 .muted {
@@ -27,28 +30,22 @@
 }
 
 .note {
-  padding: var(--space-3) var(--space-4);
-  background: var(--notice-bg);
-  border: 1px solid var(--notice-border);
-  border-radius: var(--radius-2);
-  color: var(--notice-text);
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--notice);
+  color: var(--text-muted);
   font-size: var(--fs-sm);
 }
 
+/* the verdict is one sentence with a status rule, not a tinted banner */
 .verdict {
-  padding: var(--space-3) var(--space-4);
-  background: var(--ok-bg);
-  border: 1px solid var(--ok-border);
-  border-radius: var(--radius-2);
-  color: var(--ok-text);
+  padding-left: var(--space-3);
+  border-left: 3px solid var(--ok);
   font-size: var(--fs-sm);
   font-weight: 500;
 }
 
 .verdict[data-refused="true"] {
-  background: var(--notice-bg);
-  border-color: var(--notice-border);
-  color: var(--notice-text);
+  border-left-color: var(--notice);
 }
 
 .sources {

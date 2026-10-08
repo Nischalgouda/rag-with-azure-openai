@@ -1,27 +1,28 @@
+/* A flat, precise input: hairline border, tight corners, a clear focus ring. No glow, no big shadow. */
 .card {
   display: grid;
   background: var(--surface);
   border: 1px solid var(--border-strong);
-  border-radius: var(--radius-4);
-  box-shadow: var(--shadow-3);
-  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  border-radius: var(--radius-3);
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
 
 .card:focus-within {
   border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent);
 }
 
 .textarea {
   width: 100%;
-  min-height: 92px;
-  padding: var(--space-5) var(--space-6) var(--space-2);
+  min-height: 88px;
+  padding: var(--space-4) var(--space-5) var(--space-2);
   background: transparent;
   border: 0;
-  border-radius: var(--radius-4) var(--radius-4) 0 0;
+  border-radius: var(--radius-3) var(--radius-3) 0 0;
   resize: none;
   font-size: var(--fs-lg);
   line-height: 1.5;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
 }
 
 .textarea::placeholder {
@@ -34,25 +35,20 @@
   outline: none;
 }
 
-.card:has(.textarea:focus-visible) {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
-}
-
 .toolbar {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-3) var(--space-6);
-  padding: var(--space-3) var(--space-4) var(--space-4) var(--space-5);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-5);
   border-top: 1px solid var(--border);
 }
 
 .mode {
   display: grid;
   gap: var(--space-2);
-  max-width: 36ch;
+  max-width: 38ch;
 }
 
 .modeHelp {
@@ -76,7 +72,8 @@
 }
 
 .quota {
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-weight: 500;
   color: var(--text);
 }
 .quota[data-low="true"] {
@@ -87,36 +84,36 @@
   padding: 0 5px;
   border: 1px solid var(--border-strong);
   border-bottom-width: 2px;
-  border-radius: 4px;
+  border-radius: var(--radius-1);
   background: var(--surface-sunken);
-  font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
 }
 
 .counter {
   font-variant-numeric: tabular-nums;
 }
 
+/* ink button: the primary action is the darkest thing on the page, not a default blue */
 .submit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  min-width: 112px;
-  min-height: 44px;
-  padding: 0 var(--space-6);
+  min-width: 96px;
+  min-height: 40px;
+  padding: 0 var(--space-5);
   border: 0;
   border-radius: var(--radius-2);
-  background: var(--accent);
-  color: var(--on-accent);
-  font-weight: 650;
-  box-shadow: 0 1px 0 rgb(255 255 255 / 0.18) inset, 0 4px 12px -4px var(--accent);
+  background: var(--ink);
+  color: var(--on-ink);
+  font-weight: 600;
+  letter-spacing: -0.005em;
   transition: background var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
 
 .submit:hover:not(:disabled) {
-  background: var(--accent-hover);
+  background: var(--ink-hover);
 }
 
 .submit:active:not(:disabled) {
@@ -125,13 +122,12 @@
 
 .submit:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
-  box-shadow: none;
+  opacity: 0.4;
 }
 
 .spinner {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
   border: 2px solid currentColor;
   border-right-color: transparent;

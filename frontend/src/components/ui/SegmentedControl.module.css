@@ -1,4 +1,4 @@
-.group {
+﻿.group {
   border: 0;
   margin: 0;
   padding: 0;
@@ -39,10 +39,10 @@
 
 .label {
   padding: var(--space-1) var(--space-3);
-  min-height: 32px;
+  min-height: 28px;
   display: inline-flex;
   align-items: center;
-  border-radius: calc(var(--radius-2) - 3px);
+  border-radius: var(--radius-1);
   font-size: var(--fs-sm);
   font-weight: 500;
   color: var(--text-muted);

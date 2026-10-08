@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 
 import { ApiError } from "./api/errors";
 import type { Quota } from "./api/types";
@@ -66,9 +66,9 @@ export function App() {
 
       <main id="main" className={styles.main}>
         <section className={styles.hero} aria-labelledby="hero-title">
-          <p className={styles.eyebrow}>Retrieval-augmented generation, made visible</p>
+          <p className={styles.kicker}>Retrieval-augmented generation, made visible</p>
           <h1 id="hero-title" className={styles.title}>
-            See why a RAG system <span className={styles.accent}>answers, or refuses.</span>
+            See why a RAG system answers, <span className={styles.soft}>or refuses.</span>
           </h1>
           <p className={styles.lead}>
             Ask a question. Watch every chunk get scored, see where the refusal threshold falls, and find out

@@ -1,10 +1,14 @@
+/* One connected readout, not four cards: hairline dividers do the separating. */
 .steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 0;
   padding: 0;
   list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-3);
+  overflow: hidden;
 }
 
 .step {
@@ -12,62 +16,56 @@
   display: grid;
   gap: 2px;
   align-content: start;
-  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-4);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-3);
-  box-shadow: var(--shadow-1);
-  animation: rise var(--dur-base) var(--ease-out) both;
+  padding: var(--space-4) var(--space-5);
+  border-left: 1px solid var(--border);
 }
 
-.step:nth-child(2) { animation-delay: 60ms; }
-.step:nth-child(3) { animation-delay: 120ms; }
-.step:nth-child(4) { animation-delay: 180ms; }
+.step:first-child {
+  border-left: 0;
+}
 
-/* a connector arrow into each step, only where the steps sit on one row */
-@media (min-width: 900px) {
-  .step + .step::before {
-    content: "";
-    position: absolute;
-    left: calc(-1 * var(--space-3) - 1px);
-    top: 50%;
-    width: var(--space-3);
-    border-top: 2px solid var(--border-strong);
-  }
+/* the outcome is carried by a 3px rule across the top of the step, not by a tinted card */
+.step::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: transparent;
+}
+.step[data-state="passed"]::before {
+  background: var(--ok);
+}
+.step[data-state="refused"]::before {
+  background: var(--notice);
 }
 
 .index {
   position: absolute;
   top: var(--space-4);
-  right: var(--space-4);
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--surface-sunken);
+  right: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
   color: var(--text-muted);
-  font-size: var(--fs-xs);
-  font-weight: 700;
 }
 
 .title {
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--text-muted);
 }
 
 .main {
   font-size: var(--fs-lg);
-  font-weight: 650;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  letter-spacing: -0.015em;
   font-variant-numeric: tabular-nums;
 }
 
 .sub {
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   color: var(--text-muted);
 }
 
@@ -77,43 +75,43 @@
   gap: 6px;
   justify-self: start;
   margin-top: var(--space-1);
-  padding: 2px var(--space-3);
-  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
   font-size: var(--fs-xs);
-  font-weight: 700;
+  font-weight: 600;
 }
 
-.step[data-state="passed"] {
-  border-color: var(--ok-border);
-}
 .step[data-state="passed"] .verdict {
-  background: var(--ok-bg);
   color: var(--ok-text);
-  border: 1px solid var(--ok-border);
-}
-
-.step[data-state="refused"] {
-  border-color: var(--notice-border);
 }
 .step[data-state="refused"] .verdict {
-  background: var(--notice-bg);
   color: var(--notice-text);
-  border: 1px solid var(--notice-border);
 }
 
-.step[data-state="skipped"] {
-  border-style: dashed;
-  background: transparent;
-  box-shadow: none;
+.step[data-state="skipped"] .main,
+.step[data-state="skipped"] .sub {
+  color: var(--text-muted);
 }
 
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
+@media (max-width: 860px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  to {
-    opacity: 1;
-    transform: none;
+  .step:nth-child(3) {
+    border-left: 0;
+  }
+  .step:nth-child(n + 3) {
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 480px) {
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .step {
+    border-left: 0;
+  }
+  .step + .step {
+    border-top: 1px solid var(--border);
   }
 }

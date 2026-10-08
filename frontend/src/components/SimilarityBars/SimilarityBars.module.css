@@ -1,4 +1,4 @@
-.figure {
+﻿.figure {
   margin: 0;
   display: grid;
   gap: var(--space-2);
@@ -14,7 +14,7 @@
 .row,
 .axisRow {
   display: grid;
-  grid-template-columns: minmax(84px, 150px) minmax(0, 1fr) 84px;
+  grid-template-columns: minmax(84px, 150px) minmax(0, 1fr) 100px;
   align-items: center;
   column-gap: var(--space-3);
 }
@@ -106,19 +106,23 @@
 }
 
 .num {
+  font-family: var(--font-mono);
   font-size: var(--fs-sm);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
 .sent {
-  padding: 0 6px;
-  border-radius: var(--radius-pill);
+  padding: 0 5px;
+  border-radius: var(--radius-1);
   background: var(--ok-bg);
   border: 1px solid var(--ok-border);
   color: var(--ok-text);
-  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
   font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   line-height: 16px;
 }
 
@@ -132,6 +136,7 @@
 }
 
 .tick {
+  font-family: var(--font-mono);
   fill: var(--text-muted);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
@@ -143,6 +148,7 @@
 }
 
 .thresholdLabel {
+  font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 700;
   line-height: 1.2;
