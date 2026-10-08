@@ -7,6 +7,22 @@ resources you already created. Nothing here is deployed yet; this is the runbook
 > Azure (UI, `/api`, CSP, limits, refusals). The Docker image build, the CI workflow and `deploy_azure.ps1`
 > have **not** been run end to end yet: treat the first run as a test and watch each step.
 
+## Current deployment (verified live)
+- **App:** `rag-xray` on Azure Container Apps, **Central US**, one always-on replica (0.25 CPU, 0.5 GB), public HTTPS.
+- **Image:** `ragxray250283.azurecr.io/rag-xray:0.2.0` in a Basic container registry (East US).
+- **Verified from outside:** UI over HTTPS with CSP, `/api/health`, a real question through Azure OpenAI and Azure AI
+  Search, `/api/ingest` and `/api/usage` return 401, `/docs` hidden, the burst limit returns 429 even when the
+  client forges `X-Forwarded-For`, and the app logs the visitor's real public address (so `TRUSTED_PROXY_HOPS=1` is right).
+
+### Gotchas we actually hit on a free-credit subscription (and the fixes now in the script)
+| Symptom | Cause | Fix |
+|---|---|---|
+| `TasksOperationsNotAllowed` on `az acr build` | Azure blocks ACR Tasks on free-credit subscriptions | build locally with Docker and `docker push` (`-Build local`, the default) |
+| `AKSCapacityHeavyUsage` creating the environment | no capacity in `eastus` at that time | use another region (`-Location centralus`) |
+| `MaxNumberOfGlobalEnvironmentsInSubExceeded` | the subscription allows **1** environment, and a failed one still counts until its deletion finishes | delete the failed one, wait for it to disappear, then create |
+| `ConnectionResetError 10054` while creating the environment | a network blip on the CLI's long polling connection | `env create --no-wait`, then poll gently (the script now does) |
+| script died on an extension WARNING | PowerShell 5.1 treats stderr output as an error under `Stop` | quiet queries judge success by exit code only |
+
 ## What gets protected, and how
 
 | Risk | Protection | Where |
@@ -58,7 +74,12 @@ a non-root user, serves the UI and API, keeps `/ingest` closed (401) and answers
    az containerapp exec -n rag-xray -g rg-rag-demo --command "python -m scripts.create_key admin"
    ```
    The `rag-chunks` index already exists in Azure AI Search, so no re-ingest is needed.
-5. **Set a budget alert** in Cost Management (for example 5 USD) with an email action.
+5. **Set a budget alert** (done for this subscription; reproducible with the script):
+   ```powershell
+   .\scripts\set_budget.ps1 -Email you@example.com     # 1000 per month in your billing currency (INR here)
+   ```
+   Alerts at 50%, 80% and 100% of actual spend and at a 100% forecast. A budget only sends email; it does not stop
+   spending. The brakes are the app's daily token budget, the kill switch below, and your free credit.
 
 ## Check it worked
 ```powershell

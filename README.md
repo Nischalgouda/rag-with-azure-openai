@@ -6,6 +6,8 @@ Built on **Azure OpenAI** (chat + embeddings) and **Azure AI Search** (hybrid re
 
 ![RAG X-ray answering a question: pipeline, answer and similarity chart](docs/screenshot-answered.png)
 
+**Live demo:** https://rag-xray.agreeablesky-d286d090.centralus.azurecontainerapps.io (fair-use limits; the example questions are saved real runs, so they always work).
+
 ## What you see
 
 - **A four-step decision strip:** retrieve, guardrail, generate, respond, with the real numbers (chunks scored, best similarity vs threshold, tokens, latency).

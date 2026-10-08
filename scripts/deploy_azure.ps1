@@ -4,8 +4,9 @@
 
 .DESCRIPTION
   Two ways to get the container image to Azure:
-    -Registry acr   (default) builds the image IN AZURE from this folder with `az acr build`. No local Docker and
-                    no GitHub package needed. Creates an Azure Container Registry (Basic tier, a few dollars/month).
+    -Registry acr   (default) creates an Azure Container Registry (Basic tier, a few dollars/month), builds the
+                    image locally with Docker and pushes it. No GitHub package needed. (`-Build tasks` builds in
+                    Azure instead, but Azure blocks that on free-credit subscriptions.)
     -Registry ghcr  uses an image already published by CI to GitHub Container Registry (see docs/DEPLOY.md).
 
   Keys are read from your local .env (never typed into a terminal) and stored as Container Apps SECRETS.
@@ -18,10 +19,16 @@
 #>
 param(
   [string]$ResourceGroup = "rg-rag-demo",
-  [string]$Location = "eastus",
+  # Where the app environment runs. Azure sometimes has no capacity in a region (we hit AKSCapacityHeavyUsage in
+  # eastus); pick another with -Location. The registry can live elsewhere, the app pulls over the network.
+  [string]$Location = "centralus",
+  [string]$RegistryLocation = "eastus",
   [string]$AppName = "rag-xray",
   [string]$EnvironmentName = "rag-xray-env",
   [ValidateSet("acr", "ghcr")][string]$Registry = "acr",
+  # local: build with Docker here and push to ACR (works everywhere). tasks: `az acr build` in Azure,
+  # which Azure blocks on free-credit subscriptions.
+  [ValidateSet("local", "tasks")][string]$Build = "local",
   [string]$Tag = "0.2.0",
   [string]$Image = "ghcr.io/nischalgouda/rag-with-azure-openai:latest",
   [string]$EnvFile = ".env",
@@ -103,9 +110,24 @@ if ($Registry -eq "acr") {
   $acr = "ragxray$suffix"
   $Image = "$acr.azurecr.io/rag-xray:$Tag"
 
-  Invoke-Az @("acr", "create", "--name", $acr, "--resource-group", $ResourceGroup, "--location", $Location, "--sku", "Basic", "--admin-enabled", "true")
-  # Build in Azure from this folder (.dockerignore applies). Runs the same multi-stage Dockerfile.
-  Invoke-Az @("acr", "build", "--registry", $acr, "--image", "rag-xray:$Tag", ".")
+  Invoke-Az @("acr", "create", "--name", $acr, "--resource-group", $ResourceGroup, "--location", $RegistryLocation, "--sku", "Basic", "--admin-enabled", "true")
+  if ($Build -eq "tasks") {
+    # Build in Azure from this folder (.dockerignore applies). NOT available on free-credit subscriptions:
+    # Azure rejects it with TasksOperationsNotAllowed.
+    Invoke-Az @("acr", "build", "--registry", $acr, "--image", "rag-xray:$Tag", ".")
+  } else {
+    # Default: build the same multi-stage Dockerfile locally and push it. Needs Docker running.
+    Invoke-Az @("acr", "login", "--name", $acr)
+    Write-Host "> docker build -t $Image ." -ForegroundColor Cyan
+    Write-Host "> docker push $Image" -ForegroundColor Cyan
+    if (-not $DryRun) {
+      if (-not (Get-Command docker -ErrorAction SilentlyContinue)) { throw "Docker not found. Install Docker Desktop or use -Build tasks." }
+      docker build -t $Image .
+      if ($LASTEXITCODE -ne 0) { throw "docker build failed (exit $LASTEXITCODE)" }
+      docker push $Image
+      if ($LASTEXITCODE -ne 0) { throw "docker push failed (exit $LASTEXITCODE)" }
+    }
+  }
   $acrUser = Invoke-Az @("acr", "credential", "show", "--name", $acr, "--query", "username", "--output", "tsv") -Capture
   $acrPass = Invoke-Az @("acr", "credential", "show", "--name", $acr, "--query", "passwords[0].value", "--output", "tsv") -Capture
   $script:Secrets += $acrPass
@@ -128,8 +150,54 @@ $envVars = @(
   "MIN_SCORE=$(Get-Setting $cfg 'MIN_SCORE' '0.23')"
 )
 
-Invoke-Az @("containerapp", "env", "create", "--name", $EnvironmentName, "--resource-group", $ResourceGroup, "--location", $Location)
+# The environment takes a few minutes to provision. `--no-wait` avoids holding one long polling connection (which can
+# be reset by the network: we hit ConnectionResetError once); we poll gently instead and tolerate transient errors.
+# The containerapp extension prints a harmless WARNING to stderr on every call. Under $ErrorActionPreference = "Stop"
+# PowerShell 5.1 turns that into a terminating error, so quiet queries run with "Continue" and we judge success by the
+# exit code only.
+function Invoke-AzQuiet([string[]]$AzArgs) {
+  $ErrorActionPreference = "Continue"
+  $out = & az @AzArgs 2>$null
+  return [pscustomobject]@{ Code = $LASTEXITCODE; Out = (($out | Out-String).Trim()) }
+}
 
+function Get-EnvState {
+  $r = Invoke-AzQuiet @("containerapp", "env", "show", "--name", $EnvironmentName, "--resource-group", $ResourceGroup, "--query", "properties.provisioningState", "--output", "tsv")
+  if ($r.Code -ne 0) { return "" }
+  return $r.Out
+}
+
+if ($DryRun) {
+  Invoke-Az @("containerapp", "env", "create", "--name", $EnvironmentName, "--resource-group", $ResourceGroup, "--location", $Location, "--no-wait")
+} else {
+  $state = Get-EnvState
+  if (-not $state) {
+    Invoke-Az @("containerapp", "env", "create", "--name", $EnvironmentName, "--resource-group", $ResourceGroup, "--location", $Location, "--no-wait")
+    $state = "Waiting"
+  } else {
+    Write-Host "Environment '$EnvironmentName' already exists (state: $state); reusing it." -ForegroundColor Yellow
+  }
+  for ($i = 0; $i -lt 80 -and $state -ne "Succeeded"; $i++) {
+    if ($state -in @("Failed", "Canceled")) { throw "Environment provisioning ended in state '$state'. Delete it and retry, or pick another -Location." }
+    Write-Host "  waiting for the environment (state: $(if ($state) { $state } else { 'unknown, retrying' }))..."
+    Start-Sleep -Seconds 15
+    $state = Get-EnvState   # a transient network error returns "" and we simply try again
+  }
+  if ($state -ne "Succeeded") { throw "Timed out waiting for the environment to be ready." }
+  Write-Host "Environment ready." -ForegroundColor Green
+}
+
+$appExists = $false
+if (-not $DryRun) {
+  $appExists = ((Invoke-AzQuiet @("containerapp", "show", "--name", $AppName, "--resource-group", $ResourceGroup, "--query", "name", "--output", "tsv")).Code -eq 0)
+}
+
+if ($appExists) {
+  # Re-run safety: roll the existing app to the new image and settings instead of failing on "already exists".
+  Write-Host "App '$AppName' already exists; updating it." -ForegroundColor Yellow
+  Invoke-Az @("containerapp", "secret", "set", "--name", $AppName, "--resource-group", $ResourceGroup, "--secrets", "aoai-key=$aoaiKey", "search-key=$searchKey")
+  Invoke-Az -AzArgs (@("containerapp", "update", "--name", $AppName, "--resource-group", $ResourceGroup, "--image", $Image, "--set-env-vars") + $envVars)
+} else {
 Invoke-Az -AzArgs (@(
   "containerapp", "create",
   "--name", $AppName,
@@ -142,6 +210,7 @@ Invoke-Az -AzArgs (@(
   "--max-replicas", "$MaxReplicas",
   "--cpu", "0.25", "--memory", "0.5Gi",
   "--secrets", "aoai-key=$aoaiKey", "search-key=$searchKey") + $registryArgs + @("--env-vars") + $envVars)
+}
 
 if (-not $DryRun) {
   $fqdn = Invoke-Az @("containerapp", "show", "--name", $AppName, "--resource-group", $ResourceGroup, "--query", "properties.configuration.ingress.fqdn", "--output", "tsv") -Capture
