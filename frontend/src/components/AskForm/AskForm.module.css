@@ -2,14 +2,14 @@
 .card {
   display: grid;
   background: var(--surface);
-  border: 1px solid var(--border-strong);
   border-radius: var(--radius-3);
-  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  /* a ring (not a border) so the edge stays crisp; --control-border keeps the field's boundary at 3:1 */
+  box-shadow: 0 0 0 1px var(--control-border), var(--shadow-soft);
+  transition: box-shadow var(--dur-fast) var(--ease-out);
 }
 
 .card:focus-within {
-  border-color: var(--focus);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 22%, transparent);
+  box-shadow: 0 0 0 1px var(--focus), 0 0 0 4px color-mix(in srgb, var(--focus) 24%, transparent);
 }
 
 .textarea {

@@ -3,17 +3,22 @@
  * so a theme is a swap of this file's values and nothing else.
  *
  * Point of view: a quiet instrument readout. Neutral surfaces, ink (not blue) as the primary
- * action colour, hairline rules instead of boxes, tight corners, monospace for data. Colour is
- * reserved for meaning: blue = at or above the threshold, orange = below, green/amber = outcome.
+ * action colour, elevation by a 1px ring plus stacked soft shadows (never one heavy drop),
+ * one polarity-flipped "decision panel" as the focal object, monospace for data. Colour is reserved
+ * for meaning: blue = at or above the threshold, orange = below, green/amber = outcome.
+ *
+ * Influences, studied from the awesome-design-md collection: Vercel (Geist type, ink/neutral ladder,
+ * shadow-as-border elevation, polarity flip) and Linear (surface ladder and top-edge highlight in
+ * dark, no gradients, one scarce accent). The mesh-gradient decoration was deliberately not used.
  *
  * Contrast targets (WCAG 2.2 AA): body text >= 4.5:1, large text and UI components >= 3:1.
  * Marks are never the only cue: position against the threshold rule, a printed value and a label
  * carry the same meaning.
  */
 :root {
-  /* Typography: self-hosted Inter for text, JetBrains Mono for data and labels */
-  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  /* Typography: Geist for text, Geist Mono for data and labels (both self-hosted, latin subset ~50 KB) */
+  --font-sans: "Geist Variable", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
   --fs-2xs: 0.6875rem;
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
@@ -21,11 +26,12 @@
   --fs-lg: 1.125rem;
   --fs-xl: 1.3125rem;
   --fs-2xl: 1.625rem;
-  --fs-hero: clamp(2rem, 4.4vw, 3.25rem);
-  --lh-tight: 1.05;
+  --fs-hero: clamp(2.125rem, 4.8vw, 3.5rem);
+  --lh-tight: 1.04;
   --lh-snug: 1.3;
   --lh-base: 1.55;
-  --tracking-label: 0.08em; /* uppercase mono labels */
+  --tracking-label: 0.08em; /* uppercase mono labels: positive tracking marks taxonomy */
+  --tracking-display: -0.05em; /* display type: aggressive negative tracking is part of the voice */
 
   /* Spacing: 4px base scale */
   --space-1: 0.25rem;
@@ -59,22 +65,23 @@
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #fbfbfa;
+  --bg: #fafafa;
   --surface: #ffffff;
   --surface-raised: #ffffff;
-  --surface-sunken: #f4f4f2;
-  --border: #e7e7e3;
-  --border-strong: #cfcfc9;
-  --text: #111113;
-  --text-muted: #5c5c58;
+  --surface-sunken: #f5f5f5;
+  --border: #ebebeb; /* hairline dividers */
+  --border-strong: #dcdcdc;
+  --control-border: #8f8f8f; /* the boundary of an input must reach 3:1 against its surround (WCAG 1.4.11) */
+  --text: #171717;
+  --text-muted: #666666;
 
   /* ink: the primary action colour */
-  --ink: #111113;
+  --ink: #171717;
   --on-ink: #ffffff;
-  --ink-hover: #2c2c30;
+  --ink-hover: #333333;
 
-  --accent: #1f5fbf;
-  --accent-hover: #194e9e;
+  --accent: #0b5cc2;
+  --accent-hover: #094a9c;
   --accent-soft: #eaf1fd;
   --focus: #2a78d6;
 
@@ -94,26 +101,38 @@
   --danger-text: #9b1c1c;
   --danger-border: #f2b8b8;
 
-  --shadow-1: 0 1px 2px rgb(17 17 19 / 0.05);
-  --shadow-2: 0 4px 16px rgb(17 17 19 / 0.06);
+  /* the polarity-flipped decision panel: the one dark object on a light page */
+  --panel-bg: #171717;
+  --panel-text: #fafafa;
+  --panel-muted: #a1a1a1;
+  --panel-line: rgb(255 255 255 / 0.12);
+  --panel-ok: #45c26e;
+  --panel-notice: #f5a623;
+
+  /* elevation: a 1px ring + stacked soft shadows, never a single heavy drop */
+  --shadow-soft: 0 1px 1px rgb(0 0 0 / 0.02), 0 2px 2px rgb(0 0 0 / 0.04);
+  --shadow-card: 0 0 0 1px rgb(0 0 0 / 0.08), 0 1px 1px rgb(0 0 0 / 0.02), 0 2px 2px rgb(0 0 0 / 0.04);
+  --shadow-float: 0 0 0 1px rgb(0 0 0 / 0.08), 0 2px 2px rgb(0 0 0 / 0.04), 0 8px 16px -4px rgb(0 0 0 / 0.08);
 }
 
-/* Dark: follows the OS unless the user chose a theme explicitly */
+/* Dark: follows the OS unless the user chose a theme explicitly.
+   A surface ladder (bg < surface < raised) carries depth; panels get a faint top-edge highlight. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #0b0b0c;
-    --surface: #131314;
-    --surface-raised: #19191b;
-    --surface-sunken: #0f0f10;
-    --border: #242426;
-    --border-strong: #38383b;
-    --text: #f4f4f2;
-    --text-muted: #a3a3a0;
+    --bg: #0a0a0b;
+    --surface: #111113;
+    --surface-raised: #17171a;
+    --surface-sunken: #0d0d0f;
+    --border: #222226;
+    --border-strong: #2f2f35;
+    --control-border: #6b6b73;
+    --text: #ededed;
+    --text-muted: #a1a1a1;
 
-    --ink: #f4f4f2;
-    --on-ink: #0b0b0c;
-    --ink-hover: #d9d9d6;
+    --ink: #ededed;
+    --on-ink: #0a0a0b;
+    --ink-hover: #d4d4d4;
 
     --accent: #6da7ec;
     --accent-hover: #8bbaf1;
@@ -136,25 +155,34 @@
     --danger-text: #f4a3a3;
     --danger-border: #5b2323;
 
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
-    --shadow-2: 0 4px 16px rgb(0 0 0 / 0.45);
+    --panel-bg: #18181b;
+    --panel-text: #ededed;
+    --panel-muted: #a1a1a1;
+    --panel-line: rgb(255 255 255 / 0.1);
+    --panel-ok: #3fb868;
+    --panel-notice: #e8893a;
+
+    --shadow-soft: none;
+    --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.09), inset 0 1px 0 rgb(255 255 255 / 0.04);
+    --shadow-float: 0 0 0 1px rgb(255 255 255 / 0.1), inset 0 1px 0 rgb(255 255 255 / 0.05), 0 12px 32px rgb(0 0 0 / 0.5);
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0b0b0c;
-  --surface: #131314;
-  --surface-raised: #19191b;
-  --surface-sunken: #0f0f10;
-  --border: #242426;
-  --border-strong: #38383b;
-  --text: #f4f4f2;
-  --text-muted: #a3a3a0;
+  --bg: #0a0a0b;
+  --surface: #111113;
+  --surface-raised: #17171a;
+  --surface-sunken: #0d0d0f;
+  --border: #222226;
+  --border-strong: #2f2f35;
+  --control-border: #6b6b73;
+  --text: #ededed;
+  --text-muted: #a1a1a1;
 
-  --ink: #f4f4f2;
-  --on-ink: #0b0b0c;
-  --ink-hover: #d9d9d6;
+  --ink: #ededed;
+  --on-ink: #0a0a0b;
+  --ink-hover: #d4d4d4;
 
   --accent: #6da7ec;
   --accent-hover: #8bbaf1;
@@ -177,6 +205,14 @@
   --danger-text: #f4a3a3;
   --danger-border: #5b2323;
 
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
-  --shadow-2: 0 4px 16px rgb(0 0 0 / 0.45);
+  --panel-bg: #18181b;
+  --panel-text: #ededed;
+  --panel-muted: #a1a1a1;
+  --panel-line: rgb(255 255 255 / 0.1);
+  --panel-ok: #3fb868;
+  --panel-notice: #e8893a;
+
+  --shadow-soft: none;
+  --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.09), inset 0 1px 0 rgb(255 255 255 / 0.04);
+  --shadow-float: 0 0 0 1px rgb(255 255 255 / 0.1), inset 0 1px 0 rgb(255 255 255 / 0.05), 0 12px 32px rgb(0 0 0 / 0.5);
 }

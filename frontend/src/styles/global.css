@@ -1,4 +1,4 @@
-*,
+﻿*,
 *::before,
 *::after {
   box-sizing: border-box;
@@ -17,7 +17,6 @@ body {
   font-family: var(--font-sans);
   font-size: var(--fs-md);
   line-height: var(--lh-base);
-  font-feature-settings: "cv11", "ss03"; /* single-storey a, round dots */
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }

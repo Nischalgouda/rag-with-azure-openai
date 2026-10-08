@@ -36,7 +36,7 @@
   font-size: var(--fs-hero);
   font-weight: 650;
   line-height: var(--lh-tight);
-  letter-spacing: -0.04em;
+  letter-spacing: var(--tracking-display);
 }
 
 /* two-tone headline: contrast comes from weight of ink, not from a coloured phrase */

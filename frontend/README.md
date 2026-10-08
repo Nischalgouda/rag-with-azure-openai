@@ -1,4 +1,4 @@
-# RAG X-ray (frontend)
+﻿# RAG X-ray (frontend)
 
 A React + TypeScript UI that shows *why* a RAG system answers a question, or refuses: every chunk
 scored against the question, the refusal threshold, the vector / keyword / fused rankings, and which
@@ -32,6 +32,11 @@ npm run build       # production build (~110 KB gzipped JS)
 - **Refusal is a first-class outcome**, not an error: it has its own state, explanation and styling.
 - **Design tokens.** All colours, spacing, type and motion come from `src/styles/tokens.css`; light and
   dark themes are a swap of those values. Text and UI colours are chosen for WCAG 2.2 AA contrast.
+- **Visual language.** A quiet instrument readout: Geist and Geist Mono (self-hosted), ink as the primary action
+  colour, elevation by a 1px ring plus stacked soft shadows, and one polarity-flipped decision panel as the focal
+  object. Informed by studying the Vercel and Linear design-system write-ups in the awesome-design-md collection
+  (type pairing, shadow-as-border elevation, surface ladder, no gradients); the Vercel mesh gradient was
+  deliberately not used. Input boundaries keep a 3:1 contrast border (WCAG 1.4.11) instead of a near-invisible hairline.
 - **Accessibility.** Landmarks and a skip link, labelled form controls, native radio inputs and `<dialog>`,
   the WAI-ARIA tabs pattern with arrow-key navigation, a live region for async results, visible focus,
   `prefers-reduced-motion` respected, charts that are never colour-only (fill and ring also encode state)

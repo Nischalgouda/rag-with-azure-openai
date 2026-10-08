@@ -5,8 +5,8 @@
   gap: var(--space-5);
   padding: var(--space-6);
   background: var(--surface);
-  border: 1px solid var(--border-strong);
   border-radius: var(--radius-3);
+  box-shadow: var(--shadow-card);
 }
 
 .heading {

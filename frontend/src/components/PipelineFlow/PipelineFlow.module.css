@@ -1,13 +1,17 @@
-/* One connected readout, not four cards: hairline dividers do the separating. */
+/*
+ * The decision readout is the one polarity-flipped object on the page: a dark instrument panel on a
+ * light canvas (and a raised dark panel in dark mode). One connected panel, hairline dividers, no cards.
+ */
 .steps {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 0;
   padding: 0;
   list-style: none;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
+  background: var(--panel-bg);
+  color: var(--panel-text);
   border-radius: var(--radius-3);
+  box-shadow: var(--shadow-float);
   overflow: hidden;
 }
 
@@ -17,14 +21,14 @@
   gap: 2px;
   align-content: start;
   padding: var(--space-4) var(--space-5);
-  border-left: 1px solid var(--border);
+  border-left: 1px solid var(--panel-line);
 }
 
 .step:first-child {
   border-left: 0;
 }
 
-/* the outcome is carried by a 3px rule across the top of the step, not by a tinted card */
+/* the outcome is carried by a 3px rule across the top of the step */
 .step::before {
   content: "";
   position: absolute;
@@ -33,10 +37,10 @@
   background: transparent;
 }
 .step[data-state="passed"]::before {
-  background: var(--ok);
+  background: var(--panel-ok);
 }
 .step[data-state="refused"]::before {
-  background: var(--notice);
+  background: var(--panel-notice);
 }
 
 .index {
@@ -45,7 +49,7 @@
   right: var(--space-5);
   font-family: var(--font-mono);
   font-size: var(--fs-2xs);
-  color: var(--text-muted);
+  color: var(--panel-muted);
 }
 
 .title {
@@ -54,19 +58,19 @@
   font-weight: 500;
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--panel-muted);
 }
 
 .main {
   font-size: var(--fs-lg);
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
 
 .sub {
   font-size: var(--fs-xs);
-  color: var(--text-muted);
+  color: var(--panel-muted);
 }
 
 .verdict {
@@ -81,15 +85,15 @@
 }
 
 .step[data-state="passed"] .verdict {
-  color: var(--ok-text);
+  color: var(--panel-ok);
 }
 .step[data-state="refused"] .verdict {
-  color: var(--notice-text);
+  color: var(--panel-notice);
 }
 
 .step[data-state="skipped"] .main,
 .step[data-state="skipped"] .sub {
-  color: var(--text-muted);
+  color: var(--panel-muted);
 }
 
 @media (max-width: 860px) {
@@ -100,7 +104,7 @@
     border-left: 0;
   }
   .step:nth-child(n + 3) {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--panel-line);
   }
 }
 
@@ -112,6 +116,6 @@
     border-left: 0;
   }
   .step + .step {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--panel-line);
   }
 }
