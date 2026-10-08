@@ -25,7 +25,19 @@ resources you already created. Nothing here is deployed yet; this is the runbook
 - Your account runs on free credit. If it has not been upgraded to pay-as-you-go, Azure stops paid services
   when the credit is used up, which is a hard ceiling on the worst case. The credit expires **3 Nov 2026**.
 
-## One-time setup
+## Fastest path (no GitHub package needed)
+The default `-Registry acr` mode builds the image **inside Azure** from your local folder (`az acr build`) and
+deploys it, so you only need `az login`:
+```powershell
+az login
+.\scripts\deploy_azure.ps1 -DryRun     # read what it will do (keys are masked)
+.\scripts\deploy_azure.ps1             # build in Azure + deploy; prints the public URL
+```
+It creates an Azure Container Registry (Basic tier, a few dollars a month; delete it later if you move to the
+GitHub-published image below). The Dockerfile was verified locally: the image builds in about 45 s (387 MB), runs as
+a non-root user, serves the UI and API, keeps `/ingest` closed (401) and answers real questions through live Azure.
+
+## One-time setup (CI-published image route)
 
 1. **Push the repo and tag a release** so CI builds the image:
    ```powershell
