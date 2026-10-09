@@ -149,7 +149,7 @@ On a corpus of only 8 chunks this is weak evidence: hybrid helps at k=1 but all 
 ## Status and known limitations
 
 - **Verified:** retrieval, guardrail, trace, demo-mode protections and the production entrypoint, against live Azure OpenAI and Azure AI Search.
-- **Written but not yet run end to end:** the Docker image build, the CI workflow and the Container Apps deploy script.
+- **Deployed and verified:** the Docker image builds, runs as a non-root user and is live on Azure Container Apps (deploy script included). The CI workflow is written but has not run on GitHub yet.
 - Rate-limit state is in process memory and daily counters are in a local SQLite file, so the hosted demo runs a single replica. A shared store (Redis or PostgreSQL) is the proper fix.
 - The sample corpus is tiny, so differences between search modes are weak evidence.
 - Not done: Microsoft Entra ID / managed identity, PDF ingestion, conversation memory, streaming, trimming below-threshold chunks from the prompt.
