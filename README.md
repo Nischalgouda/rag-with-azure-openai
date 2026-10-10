@@ -39,6 +39,7 @@ flowchart LR
 - Hallucination guardrail: refuses, without calling the model, when retrieval is weak
 - Per-stage **retrieval trace** in the API (`trace: true`), see [docs/api-contract.md](docs/api-contract.md)
 - Evaluation harness (`python -m eval.run_eval`): hit@k per search mode and refusal accuracy
+- Prompt-injection regression check (`python -m eval.run_compound`): compound and "ignore the rules" questions against the real model. Prompt rules are a soft defence, not a security boundary; a groundedness check on the answer is the next step
 
 **Built to be public without being a liability** (`DEMO_MODE=true`)
 - Access keys by request: everyone can try the demo free within a fair-use limit; if you want more, ask and the owner can issue a key (stored only as a hash). A key is this app's own pass, not an OpenAI or Azure key
