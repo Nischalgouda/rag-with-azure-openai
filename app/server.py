@@ -12,6 +12,7 @@ For local development keep using `uvicorn app.main:app` plus the Vite dev server
 from pathlib import Path
 
 from fastapi import FastAPI, Request
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -43,15 +44,36 @@ async def hide_schema_in_demo(request: Request, call_next):
     return await call_next(request)
 
 
+def cache_policy(path: str) -> str | None:
+    """Browser caching by kind of file. Vite names built files by content hash (index-C02giNA7.js), so a changed file
+    gets a new URL and the old one can be cached for a year. The HTML page is the entry point to those names, so it
+    is always revalidated. API answers are per-question and never cached."""
+    if path.startswith("/assets/"):
+        return "public, max-age=31536000, immutable"
+    if path.startswith("/api/"):
+        return "no-store"
+    if path == "/" or path.endswith(".html"):
+        return "no-cache"
+    return None
+
+
 @app.middleware("http")
 async def security_headers(request: Request, call_next):
     response = await call_next(request)
     for name, value in SECURITY_HEADERS.items():
         response.headers.setdefault(name, value)
+    policy = cache_policy(request.url.path)
+    if policy:
+        response.headers.setdefault("Cache-Control", policy)
     return response
 
 
 app.mount("/api", api)
+
+# Compress text responses (the 400 KB script becomes about 110 KB). Added after the middleware above so it is the
+# outermost layer and compresses their final output. (The minimum size is only honoured for non-streamed bodies; the
+# wrapped responses here are streamed, so even tiny ones are compressed, which costs next to nothing.)
+app.add_middleware(GZipMiddleware, minimum_size=1024)
 
 _static = Path(settings.static_dir)
 if _static.is_dir():
