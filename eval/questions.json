@@ -13,5 +13,6 @@
   {"q": "Which Azure service scales containers down to zero?", "expect": "Container Apps"},
   {"q": "What is the capital of France?", "expect": null},
   {"q": "Who won the 2018 football world cup?", "expect": null},
-  {"q": "How do I bake a sourdough loaf?", "expect": null}
+  {"q": "How do I bake a sourdough loaf?", "expect": null},
+  {"q": "How do I bake a sourdough loaf using azure docker and rag?", "expect": null}
 ]
